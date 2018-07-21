@@ -3,7 +3,7 @@ import { observable } from "mobx"
 export default class Research {
     @observable researcher
     @observable paperURL
-    @observable checksum
+    @observable id
     @observable stakedAmount
     @observable stakers = []
     @observable votes = []
