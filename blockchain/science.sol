@@ -34,7 +34,7 @@ contract Science {
     }
     
     //orcids are hashed because strings and solidity aren't a good combination
-    mapping (address => string) public addressToOrcid;
+    mapping (address => bytes32) public addressToOrcid;
     
     mapping (bytes32 => Research) public researches;
     bytes32[] public researchKeys;
@@ -76,10 +76,10 @@ contract Science {
         _;
     }
     
-    modifier orcidTheSame(string orcid) {
-        bytes32 orcidHash = keccak256(abi.encodePacked(orcid));
-        bytes32 currOrcidHash = keccak256(abi.encodePacked(addressToOrcid[msg.sender]));
-        //require(orcidHash == keccak256("") || currOrcidHash == orcidHash);
+    modifier orcidTheSame(string orcidStr) {
+        bytes32 orcid = keccak256(abi.encodePacked(orcidStr));
+        bytes32 currOrcidHash = addressToOrcid[msg.sender];
+        require(orcid == 0x0 || currOrcidHash == orcid);
         _;
     }
     
@@ -106,7 +106,8 @@ contract Science {
     }
     
     //write
-    function publishResearch(string orcid, string paperURL, string title) public payable paidEnough(publishFee) {
+    function publishResearch(string orcidStr, string paperURL, string title) public payable paidEnough(publishFee) orcidTheSame(orcidStr) {
+        bytes32 orcid = keccak256(abi.encodePacked(orcidStr));
         bytes32 id = keccak256(abi.encodePacked(now, orcid, paperURL, blockhash(block.number-1)));
         Research storage res = researches[id];
         
@@ -123,7 +124,9 @@ contract Science {
         researchKeys.push(id);
     }
     
-    function stakeResearch(string orcid, bytes32 id) public payable researchExists(id) orcidTheSame(orcid) paidEnough(minStake) researchNotLocked(id) {
+    function stakeResearch(string orcidStr, bytes32 id) public payable researchExists(id) orcidTheSame(orcidStr) paidEnough(minStake) researchNotLocked(id) {
+        bytes32 orcid = keccak256(abi.encodePacked(orcidStr));
+        
         Research storage res = researches[id];
         
         addressToOrcid[msg.sender] = orcid;
@@ -137,7 +140,9 @@ contract Science {
     
     //TODO: Withdraw stake
     
-    function startReproduce(string orcid, bytes32 id) public payable paidEnough(reproduceFee) researchExists(id) researchNotReproducing(id) orcidTheSame(orcid) {
+    function startReproduce(string orcidStr, bytes32 id) public payable paidEnough(reproduceFee) researchExists(id) researchNotReproducing(id) orcidTheSame(orcidStr) {
+        bytes32 orcid = keccak256(abi.encodePacked(orcidStr));
+        
         Research storage res = researches[id];
         
         addressToOrcid[msg.sender] = orcid;
