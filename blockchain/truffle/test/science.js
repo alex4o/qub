@@ -94,17 +94,60 @@ contract('Science', function(accounts) {
 
 		let research = await sci.researches(id);
 
-		console.log(research)
 		assert.equal(research[9].toFixed(), 0); //state = "PUBLISHED" (it was "PENDING" before)
 		assert.equal(research[6], false); //isLocked = false
 		assert.equal(research[5].toFixed(), 1); //votesLength = 1
 
 		let voteObj = await sci.votes(id, 0); //voteIdx = 0
-		console.log(voteObj);
-
+		
 		assert.equal(voteObj[3], false); //result
 		assert.equal(voteObj[4], true); //completed
 		assert.equal(voteObj[0].toFixed(), 0); //votedFor
 		assert.equal(voteObj[1].toFixed(), 1); //votedAgainst
+	});
+
+
+	//the next 2 tests are the same as before, but we need to add a reproduction to proceed
+	it("should start research reproduction", async () => {
+		let sci = await Science.deployed();
+
+		await sci.startReproduce(id, {from: reproducer, value: reproduceFee});
+
+		let research = await sci.researches(id);
+
+		assert.equal(research[7], reproducer);
+	});
+
+	it("should submit reproduction", async () => {
+		let sci = await Science.deployed();
+
+		await sci.submitReproduction(id, reproduceUrl, {from: reproducer});
+
+		let research = await sci.researches(id);
+
+		assert.equal(research[8], reproduceUrl);
+	});
+
+	it("should vote for and end that vote", async () => {
+		let sci = await Science.deployed();
+
+		await sci.vote(id, true, {from: institution});
+		//we've got only one voter so voting will end it
+		
+		let vote = await sci.getVote(id, 1, institution); //voteIdx = 0
+		assert.equal(vote.toFixed(), 1); //VOTED_FOR
+
+		let research = await sci.researches(id);
+
+		assert.equal(research[9].toFixed(), 2); //state = "REPRODUCED" (it was "PENDING" before)
+		assert.equal(research[6], true); //isLocked = true
+		assert.equal(research[5].toFixed(), 2); //votesLength = 2
+
+		let voteObj = await sci.votes(id, 1); //voteIdx = 1
+		
+		assert.equal(voteObj[3], true); //result
+		assert.equal(voteObj[4], true); //completed
+		assert.equal(voteObj[0].toFixed(), 1); //votedFor
+		assert.equal(voteObj[1].toFixed(), 0); //votedAgainst
 	});
 });
