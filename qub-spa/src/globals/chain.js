@@ -11,4 +11,4 @@ console.log(methods)
 window.m = methods
 window.e = events
 
-export default {methods, events}
+export default {methods, events, account}

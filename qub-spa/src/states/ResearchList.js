@@ -74,6 +74,7 @@ export default class ResearchList {
             let orcid = await Chain.methods.register(id)
             
             runInAction(() => {
+                this.myOrcID = orcid
                 this.linked = true 
                 this.error = false
             })
