@@ -57,7 +57,7 @@ export default class ResearchList {
     async postResearch(url, title) {
         try{
             await Chain.methods.publishResearch(url, title)
-
+            
         }catch(error){
 
         }
