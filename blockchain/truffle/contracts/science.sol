@@ -33,8 +33,7 @@ contract Science {
         ResearchState state;
     }
     
-    //orcids are hashed because strings and solidity aren't a good combination
-    mapping (address => bytes32) public addressToOrcid;
+    mapping (address => string) public addressToOrcid;
     
     mapping (bytes32 => Research) public researches;
     bytes32[] public researchKeys;
@@ -76,13 +75,11 @@ contract Science {
         _;
     }
     
-    modifier orcidTheSame(string orcidStr) {
-        bytes32 orcid = keccak256(abi.encodePacked(orcidStr));
-        bytes32 currOrcidHash = addressToOrcid[msg.sender];
-        //require(orcid == 0x0 || currOrcidHash == orcid);
+    modifier isRegistered() {
+        require(bytes(addressToOrcid[msg.sender]).length != 0);
         _;
     }
-    
+       
     constructor () public payable {
         //...
     }
@@ -105,15 +102,18 @@ contract Science {
     }
     
     //write
-    function publishResearch(string orcidStr, string paperURL, string title) public payable paidEnough(publishFee) orcidTheSame(orcidStr) {
-        bytes32 orcid = keccak256(abi.encodePacked(orcidStr));
-        bytes32 id = keccak256(abi.encodePacked(now, orcid, paperURL, blockhash(block.number-1)));
+    function register(string orcid) {
+        require(bytes(addressToOrcid[msg.sender]).length == 0);
+        addressToOrcid[msg.sender] = orcid;
+    }
+    
+    function publishResearch(string paperURL, string title) public payable paidEnough(publishFee) isRegistered() {
+        bytes32 id = keccak256(abi.encodePacked(now, paperURL, blockhash(block.number-1)));
         Research storage res = researches[id];
         
         //somehow it shouldn't overlap
         require(res.researcher == 0x0);
         
-        addressToOrcid[msg.sender] = orcid;
         res.researcher = msg.sender;
         res.paperURL = paperURL;
         res.title = title;
@@ -123,12 +123,9 @@ contract Science {
         researchKeys.push(id);
     }
     
-    function stakeResearch(string orcidStr, bytes32 id) public payable researchExists(id) orcidTheSame(orcidStr) paidEnough(minStake) researchNotLocked(id) {
-        bytes32 orcid = keccak256(abi.encodePacked(orcidStr));
+    function stakeResearch(bytes32 id) public payable researchExists(id) isRegistered() paidEnough(minStake) researchNotLocked(id) {
         
         Research storage res = researches[id];
-        
-        addressToOrcid[msg.sender] = orcid;
         
         if(res.staked[msg.sender] == 0) {
             res.stakers.push(msg.sender);
@@ -139,17 +136,14 @@ contract Science {
     
     //TODO: Withdraw stake
     
-    function startReproduce(string orcidStr, bytes32 id) public payable paidEnough(reproduceFee) researchExists(id) researchNotReproducing(id) orcidTheSame(orcidStr) {
-        bytes32 orcid = keccak256(abi.encodePacked(orcidStr));
-        
+    function startReproduce(bytes32 id) public payable paidEnough(reproduceFee) researchExists(id) researchNotReproducing(id) isRegistered() {
         Research storage res = researches[id];
         
-        addressToOrcid[msg.sender] = orcid;
         res.reproducer = msg.sender;
         res.state = ResearchState.PENDING;
     }
     
-    function submitReproduction(bytes32 id) public researchExists(id) {
+    function submitReproduction(bytes32 id) public researchExists(id) isRegistered() {
         Research storage res = researches[id];
         require(msg.sender == res.reproducer);
         require(res.state == ResearchState.PENDING);
@@ -157,7 +151,7 @@ contract Science {
         //TODO
     }
     
-    function vote(bytes32 id, bool voteFor) public researchExists(id) researchReproducing(id) {
+    function vote(bytes32 id, bool voteFor) public researchExists(id) isRegistered() researchReproducing(id) {
         Research storage res = researches[id];
         
         require(res.state == ResearchState.PENDING);
