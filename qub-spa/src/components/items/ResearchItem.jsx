@@ -113,7 +113,7 @@ export default class Research extends Component {
                         <div className="button-area">
                             <Button className="btns" color="blue" disabled={this.props.isLocked} onClick={this.togglePaper.bind(this)}>See { !this.state.paperShown ? "more" : "less"}</Button>
                             
-                            { this.props.state === 1 ? <Vote data={this.props} trigger={<Button className="btns" color="violet">Vote</Button>}/> : null}
+                            { this.props.state === 1 ? <Vote research={this.props.research} trigger={<Button className="btns" color="violet">Vote</Button>}/> : null}
                             { this.props.state === 0 ? 
                                 <ReproduceResearch trigger={ this.props.state === 0 ? <Button className="btns" disabled={this.props.isLocked}>Reproduce</Button> : null }/>
                             :

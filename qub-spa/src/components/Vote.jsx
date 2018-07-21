@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { Segment, Button, Image, Modal } from 'semantic-ui-react'
 import { observer } from 'mobx-react'
 import VoteItem from "./items/VoteItem"
+import repo from "../globals/Repo"
 
+@observer
 export default class Vote extends Component {
 
     constructor(props) {
@@ -32,10 +34,14 @@ export default class Vote extends Component {
                         return <VoteItem color={null} key={index} index={index} />
                     })}
                     </div>
-                    <div className="vote-buttons">
-                        <Button size="massive" icon="check" onClick={this.voteYes} color="green"/>
-                        <Button size="massive" icon="close" onClick={this.voteNo} color="red"/>
-                    </div>
+                    {
+                        this.props.research.canVote ?
+                        <div className="vote-buttons">
+                            <Button size="massive" icon="check" onClick={this.voteYes} color="green"/>
+                            <Button size="massive" icon="close" onClick={this.voteNo} color="red"/>
+                        </div> : null
+                    }
+
                 </Segment>
             </Modal>
         );
