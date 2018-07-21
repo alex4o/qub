@@ -67,6 +67,8 @@ export default class Research {
                 this.reproducerAddress = reproducer
             })
             this.loadFromOrcID()
+            this.state = 1
+            this.decideVote()
 
         })
 
