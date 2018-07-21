@@ -1,18 +1,11 @@
 import ResearchList from "../states/ResearchList"
 import Research from "../states/Research"
 
-import {abi, init, getSolidityCall} from "../contract_api"
 
 
 let repo = new ResearchList()
 
-let contract = init()
-window.contract = contract
-
-let methods = contract.abi.reduce((prev, curr) => ({...prev, [curr.name]: getSolidityCall(curr.name, curr.payable) }), {})
-
-window.m = methods
-
+repo.checkLinked()
 
 let res = new Research();
 
