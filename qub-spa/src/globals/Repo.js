@@ -41,16 +41,9 @@ res = new Research();
 res.id = "0xFAD34CCD3434485684586"
 res.isLocked = false
 res.paperURL = "https://arxiv.org/pdf/1707.07702.pdf"
-<<<<<<< HEAD
-res.reproducedURL = ""
-//"https://arxiv.org/pdf/1707.07702.pdf"
-res.reproducer = "Steven Hawking"
-res.researcher = "Georgi Dimitrov"
-=======
 res.reproducedURL = "https://arxiv.org/pdf/1707.07702.pdf"
 res.reproducerID = "0000-0002-3704-5398"
 res.researcherID = "0000-0002-9079-593X"
->>>>>>> b688ae0e083958d80784181037a3d5e2a55f365e
 res.stakedAmount = 200
 res.stakers = 4
 res.state = 1
