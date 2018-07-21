@@ -17,7 +17,8 @@ export default class Research extends Component {
         return(
             <Segment classId="research-item">
                 <div>
-                    {repo.keys[0]}
+                    {/* TODO: Оправи */}
+                    {repo.keys.map(e => <span>{e}</span>)}
                     stuff1
                 </div>
                 <div>
