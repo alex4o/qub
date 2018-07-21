@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 
-export default class MainFeed extends Component {
-    render() {
+
+export default class Research extends Component {
+    render(){
         return(
             <div>
                 
             </div>
-        )
+        );
     }
 }
