@@ -3,14 +3,14 @@ import Research from './items/ResearchItem'
 import Vote from './Vote'
 import NavBar from './NavBar'
 import repo from '../globals/Repo'
+import { observer } from 'mobx-react'
 
+@observer
 export default class MainFeed extends Component {
     render() {
         return(
             <div className="main-container">
-                {/* {repo.researches.map((data, i) => <Research key={i} data={data}/>)} */}
-                <Research/>
-                <Vote/>
+                {repo.researches.map((data) => <Research {...data}/>)}
             </div>
         )
     }
