@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "mobx": "^5.0.3",
-    "react-router-dom": "^4.3.1",
-    "semantic-ui-css": "^2.3.3"
-  }
-}
