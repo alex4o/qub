@@ -14,16 +14,35 @@ import MainFeed from './components/MainFeed';
 import NavBar from './components/NavBar'
 
 import AddResearch from './components/AddResearch'
+import { observer } from 'mobx-react';
+import repo from './globals/Repo'
+
+import LogIn from './components/LogInPage'
 
 
+@observer
 class App extends Component {
+
+	constructor(props){
+		super(props)
+	}
+
+	routes = {
+		Login: () => ( repo.linked ? <MainFeed/> : <LogIn/> ),
+		Home: () => ( repo.linked ? <MainFeed/> : <LogIn/> ),
+		Error404: () => <Redirect to="/"/>
+	}
+
 	render() {
 		return(
 			<Router className="App">
 				<div>
-                	<NavBar/>
-					<MainFeed/>
-					<AddResearch trigger={<Button size="massive" color="green" className="add-research-button" circular icon="plus"/>}/>
+                	{ repo.linked ? <NavBar/> : null }
+					<Switch>
+                        <Route exact path="/login" component={this.routes.Login} />
+                        <Route exact path="/" component={this.routes.Home} />                                                          
+                        <Route path='*' type={404} exact={true} component={this.routes.Error404} />          
+                    </Switch>
 				</div>				
 			</Router>
 		);
