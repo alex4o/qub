@@ -73,14 +73,14 @@ export default class Research extends Component {
 
     render(){
         return(
-            <Segment className="research-item" disabled={this.props.isLocked}>
+            <Segment className="research-item" disabled={this.props.isLocked} loading={this.props.loading}>
                 <div className="info">
                     <Image src="/placeholder.png" size="medium"/>
                     <div className="research-info">
                         <div>
                             <h3> {this.props.title} </h3>
-                            <p> Researcher: {this.props.researcher} </p>
-                            <p> Reproducer: {this.props.reproducer} </p>
+                            <p> Researcher: <a target="_blank" href={"https://orcid.org/" + this.props.researcherID}> {this.props.researcher} </a></p>
+                            <p> Reproducer: <a target="_blank" href={"https://orcid.org/" + this.props.reproducerID}> {this.props.reproducer} </a></p>
                             <p> Backed by {this.props.stakers} people</p>
                             {/* <p> {this.props.state} </p> this state is used to say if you can reproduce or */}
                         </div>

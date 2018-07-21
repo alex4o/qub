@@ -31,7 +31,7 @@ export default class Research {
         
         const reproducer = await getPersonalFromOrcID(this.reproducerID)
         const researcher = await getPersonalFromOrcID(this.researcherID)
-        console.log(reproducer)
+        // console.log(reproducer)
         try {
             runInAction(() => {
                 this.reproducer = reproducer.name["given-names"].value + " " + reproducer.name["family-name"].value
