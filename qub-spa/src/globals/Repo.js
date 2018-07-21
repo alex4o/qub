@@ -1,3 +1,3 @@
 import ResearchList from "../states/ResearchList"
 
-return new ResearchList()
+export default new ResearchList()
