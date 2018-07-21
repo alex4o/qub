@@ -1,6 +1,14 @@
 pragma solidity 0.4.24;
 
 contract Science {
+    event Registration(address indexed user, string orcid);
+    event ResearchPublished(bytes32 indexed id, address indexed researcher);
+    event Staked(address indexed staker, bytes32 indexed id, uint amount);
+    event StartReproduce(address indexed reproducer, bytes32 indexed id);
+    event SubmitReproduction(address indexed reproducer, bytes32 indexed id);
+    event Voted(address indexed voter, bool voteFor, bytes32 indexed id, uint voteIdx);
+    event VoteCompleted(bool result, bytes32 indexed id, uint voteIdx);
+
     enum ResearchState {PUBLISHED, PENDING, REPRODUCED}
     enum VotedState {NOT_VOTED, VOTED_FOR, VOTED_AGAINST}
     
@@ -102,9 +110,11 @@ contract Science {
     }
     
     //write
-    function register(string orcid) {
+    function register(string orcid) public {
         require(bytes(addressToOrcid[msg.sender]).length == 0);
         addressToOrcid[msg.sender] = orcid;
+
+        emit Registration(msg.sender, orcid);
     }
     
     function publishResearch(string paperURL, string title) public payable paidEnough(publishFee) isRegistered() {
@@ -121,6 +131,8 @@ contract Science {
         res.state = ResearchState.PUBLISHED;
         
         researchKeys.push(id);
+
+        emit ResearchPublished(id, msg.sender);
     }
     
     function stakeResearch(bytes32 id) public payable researchExists(id) isRegistered() paidEnough(minStake) researchNotLocked(id) {
@@ -132,6 +144,8 @@ contract Science {
         }
         res.staked[msg.sender] += msg.value;
         res.stakedAmount += msg.value;
+
+        emit Staked(msg.sender, id, msg.value);
     }
     
     //TODO: Withdraw stake
@@ -141,14 +155,18 @@ contract Science {
         
         res.reproducer = msg.sender;
         res.state = ResearchState.PENDING;
+
+        emit StartReproduce(msg.sender, id);
     }
     
-    function submitReproduction(bytes32 id) public researchExists(id) isRegistered() {
+    function submitReproduction(bytes32 id, string reproducedURL) public researchExists(id) isRegistered() {
         Research storage res = researches[id];
         require(msg.sender == res.reproducer);
         require(res.state == ResearchState.PENDING);
         
-        //TODO
+        res.reproducedURL = reproducedURL;
+
+        emit SubmitReproduction(msg.sender, id);
     }
     
     function vote(bytes32 id, bool voteFor) public researchExists(id) isRegistered() researchReproducing(id) {
@@ -176,6 +194,8 @@ contract Science {
             voteObj.target = res.stakers.length / 2 + 1; //50% + 1 consensus
         }
         
+        emit Voted(msg.sender, voteFor, id, voteIdx);
+
         if(voteFor) {
             voteObj.votedFor++;
             voteObj.voted[msg.sender] = VotedState.VOTED_FOR;
@@ -187,7 +207,8 @@ contract Science {
                 
                 res.state = ResearchState.REPRODUCED;
                 _researchReproduced(res);
-                //TODO: Event
+
+                emit VoteCompleted(true, id, voteIdx);
             }
         } else {
             voteObj.votedAgainst++;
@@ -202,7 +223,8 @@ contract Science {
                 res.state = ResearchState.PUBLISHED;
                 
                 res.isLocked = false;
-                //TODO: Event
+
+                emit VoteCompleted(false, id, voteIdx);
             }
         }
     }
