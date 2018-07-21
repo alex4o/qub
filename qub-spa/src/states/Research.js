@@ -11,6 +11,6 @@ export default class Research {
     @observable reproducer
     @observable reproducedURL
     @observable state
-
+    @observable title = ""
     
 }

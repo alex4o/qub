@@ -15,7 +15,7 @@ res.stakedAmount = 200
 res.stakers = 4
 res.state = 2
 res.votes = []
-
+res.title = "SECULAR EVOLUTION OF BARRED GALAXIES WITH MASSIVE CENTRAL BLACK HOLES"
 repo.researches.push(res)
 
 res = new Research();
@@ -30,6 +30,7 @@ res.stakedAmount = 200
 res.stakers = 4
 res.state = 1
 res.votes = []
+res.title = "A Smooth Exit from Eternal Inflation?"
 
 repo.researches.push(res)
 
@@ -45,6 +46,7 @@ res.stakedAmount = 800
 res.stakers = 6
 res.state = 0
 res.votes = []
+res.title = "The Conformal BMS Group"
 
 repo.researches.push(res)
 
