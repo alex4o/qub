@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Segment, Button, Image } from 'semantic-ui-react'
+import { Segment, Button, Image, Modal } from 'semantic-ui-react'
 import { observer } from 'mobx-react'
 import VoteItem from "./items/VoteItem"
 
@@ -12,22 +12,31 @@ export default class Vote extends Component {
             //state here
         }
     }
+    
+    voteYes() {
+        console.log("Yes")
+    }
+
+    voteNo() {
+        console.log("No")
+    }
 
     render(){
         return(
-            <Segment>
-                <h1>Vote</h1>
+            <Modal className="vote-modal" trigger={this.props.trigger} dimmer="blurring" closeIcon>
+                <Segment className="vote-segment">
+                    <h1 className="vote-title">Vote</h1>
                     <div style={{ margin: "auto", maxWidth: 500, display: "flex", flexWrap: "wrap" }}>
                     { Array.from(Array(99).keys()).map(index => {
-                        return <VoteItem color="gray" index={index} />
+                        return <VoteItem color={null} key={index} index={index} />
                     })}
                     </div>
-                    <div>
-                        <Button color="green">Yes</Button>
-                        <Button color="red">No</Button>
+                    <div className="vote-buttons">
+                        <Button size="massive" icon="check" onClick={this.voteYes} color="green"/>
+                        <Button size="massive" icon="close" onClick={this.voteNo} color="red"/>
                     </div>
-                   
                 </Segment>
+            </Modal>
         );
     }
 }

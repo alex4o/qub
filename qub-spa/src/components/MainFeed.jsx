@@ -10,7 +10,7 @@ export default class MainFeed extends Component {
     render() {
         return(
             <div className="main-container">
-                {repo.researches.map((data) => <Research {...data}/>)}
+                {repo.researches.map((data, i) => <Research key={i} {...data}/>)}
             </div>
         )
     }

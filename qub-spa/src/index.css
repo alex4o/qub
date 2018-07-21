@@ -15,6 +15,9 @@ body {
 
 .button-area {
 	width: auto !important;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
 	margin-top: 60px;
 }
 
@@ -44,4 +47,35 @@ body {
 
 .paperInfo {
 	margin: auto !important;
+}
+
+.vote-segment {
+	border: 0 !important;
+	display: flex;
+	flex-direction: column;
+}
+
+.vote-buttons {
+	margin: auto !important;
+	margin-top: 10px !important;	
+}
+
+.vote-title {
+	text-align: center;
+}
+
+.vote-modal {
+	width: 40% !important;
+}
+
+.button {
+	margin: auto;
+}
+
+.left {
+	margin: auto;
+}
+
+.btns {
+	margin-top: 10px !important;
 }

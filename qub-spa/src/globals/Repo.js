@@ -20,10 +20,27 @@ repo.researches.push(res)
 
 res = new Research();
 
+res.id = "0xFAD34F43434485684586"
+res.isLocked = false
+res.paperURL = "https://arxiv.org/pdf/astro-ph/9806002.pdf"
+res.reproducedURL = "https://arxiv.org/pdf/1707.07702.pdf"
+res.reproducer = "Ivan petrov"
+res.researcher = "Georgi Dimitrov"
+res.stakedAmount = 200
+res.stakers = 4
+res.state = 2
+res.votes = []
+res.title = "SECULAR EVOLUTION OF BARRED GALAXIES WITH MASSIVE CENTRAL BLACK HOLES"
+repo.researches.push(res)
+
+res = new Research();
+
+
 res.id = "0xFAD34CCD3434485684586"
 res.isLocked = false
 res.paperURL = "https://arxiv.org/pdf/1707.07702.pdf"
-res.reproducedURL = "https://arxiv.org/pdf/1707.07702.pdf"
+res.reproducedURL = ""
+//"https://arxiv.org/pdf/1707.07702.pdf"
 res.reproducer = "Steven Hawking"
 res.researcher = "Georgi Dimitrov"
 res.stakedAmount = 200
