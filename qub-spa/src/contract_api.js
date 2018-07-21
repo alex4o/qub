@@ -1,5 +1,5 @@
 /* eslint-disable */
-const abi =[
+const abi =  [
   {
     "constant": true,
     "inputs": [
@@ -139,6 +139,145 @@ const abi =[
     "type": "constructor"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "orcid",
+        "type": "string"
+      }
+    ],
+    "name": "Registration",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "id",
+        "type": "bytes32"
+      },
+      {
+        "indexed": true,
+        "name": "researcher",
+        "type": "address"
+      }
+    ],
+    "name": "ResearchPublished",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "staker",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "name": "id",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "Staked",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "reproducer",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "name": "id",
+        "type": "bytes32"
+      }
+    ],
+    "name": "StartReproduce",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "reproducer",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "name": "id",
+        "type": "bytes32"
+      }
+    ],
+    "name": "SubmitReproduction",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "voter",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "voteFor",
+        "type": "bool"
+      },
+      {
+        "indexed": true,
+        "name": "id",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "name": "voteIdx",
+        "type": "uint256"
+      }
+    ],
+    "name": "Voted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "result",
+        "type": "bool"
+      },
+      {
+        "indexed": true,
+        "name": "id",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "name": "voteIdx",
+        "type": "uint256"
+      }
+    ],
+    "name": "VoteCompleted",
+    "type": "event"
+  },
+  {
     "constant": true,
     "inputs": [],
     "name": "getResearchKeys",
@@ -222,6 +361,20 @@ const abi =[
     "type": "function"
   },
   {
+    "constant": true,
+    "inputs": [],
+    "name": "getMyOrcid",
+    "outputs": [
+      {
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "constant": false,
     "inputs": [
       {
@@ -287,6 +440,10 @@ const abi =[
       {
         "name": "id",
         "type": "bytes32"
+      },
+      {
+        "name": "reproducedURL",
+        "type": "string"
       }
     ],
     "name": "submitReproduction",
@@ -314,7 +471,7 @@ const abi =[
     "type": "function"
   }
 ]
-  
+
 let puts = console.log
 
 
@@ -355,14 +512,13 @@ function updateAccount(){
 export function getSolidityCall(funName, payable) {
 	return function(){
 		let ar = arguments;
-		let o = {"from": acc,}
+		let o = {"from": acc}
 		if(payable){
 			o["value"] = web3.toWei("1", "ether")
 		}
-
 		return new Promise((accept, reject) => {
-			inst[funName](...ar, o, function(err, res){
-				if(!err) {
+			inst[funName](...ar, o, (err, res) => {
+        if(!err) {
 					accept(res);
 				} else {
 					reject(err);

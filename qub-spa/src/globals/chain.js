@@ -8,6 +8,7 @@ let methods = contract.abi.reduce((prev, curr) => ({...prev, [curr.name]: getSol
 
 methods.getOrcId = () => methods.addressToOrcid(account)
 
+console.log(methods)
 window.m = methods
 
 export default methods

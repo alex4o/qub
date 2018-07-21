@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import repo from "../globals/Repo"
 
 export default class LogIn extends Component {
 
@@ -21,6 +22,9 @@ export default class LogIn extends Component {
 		const { orcId } = this.state
 		this.setState({ loggingIn: true })
 		this.setState({ orcId: orcId })
+
+		repo.register(orcId)
+
         //link(orc-id)
         //set the linked variable to true
     }
