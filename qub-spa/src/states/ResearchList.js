@@ -12,7 +12,7 @@ export default class ResearchList {
 
     constructor() {
         console.log(Chain)
-        Chain.events.ResearchPublished().watch(async (error, result) => {
+        Chain.events.ResearchPublished({}, {fromBlock: 0}).watch(async (error, result) => {
             let {id, researcher} = result.args
             
             Chain.methods.researches(id).then(researchArray => {

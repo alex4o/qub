@@ -15,7 +15,7 @@ function init(){
 
 var inst;
 
-var address = "0xe78a0f7e598cc8b0bb87894b0f60dd2a88d6a8ab";
+var address = "0xcfeb869f69431e42cdb54a4f4f105c19c080a601";
 var acc;
 
 //temp fix:

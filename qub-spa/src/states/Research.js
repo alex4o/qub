@@ -20,10 +20,11 @@ export default class Research {
     @observable reproducerID
     @observable reproducer
     @observable reproducedURL
-    @observable state
+    @observable state = 0
     @observable title = ""
 
     @observable loading = false
+    @observable funding = false
 
     constructor(args) {
         let [researcherAddress, paperURL, title, id, stakedAmount, votesLength, isLocked, reproducerAddress, reproducedURL, state] = args
@@ -33,12 +34,22 @@ export default class Research {
         this.paperURL = paperURL
         this.title = title
         this.id = id
-        this.stakedAmount = stakedAmount.toFixed()
-        this.votesLength = votesLength.toFixed()
+        this.stakedAmount = stakedAmount.toFixed() / 1000000000000000000
+        this.votesLength = +votesLength.toFixed()
         this.isLocked = isLocked
 
         this.reproducedURL = reproducedURL
-        this.state = state.toFixed()
+        this.state = state.toFixed() | 0
+
+        Chain.events.Staked({ id: this.id }, { fromBlock: "latest", toBlock: "latest" } ).watch((err,ev) => {
+            // let stake = await Chain.methods.getStake(this.id)
+            runInAction(() => {
+                this.stakedAmount =  ev.args.fullAmount.toFixed() / 1000000000000000000
+                this.funding = false
+            })
+
+            console.log("staked", ev.args.fullAmount.toFixed() / 1000000000000000000, err, ev)
+        })
 
         setTimeout(() => {
             runInAction(async () => {
@@ -58,9 +69,13 @@ export default class Research {
     @action
     async stake(price) { // TODO: make it possible to stake more then 1 ether
         try{
-            await Chain.methods.stakeResearch.bind(price)(this.id)
+            runInAction(() => {
+                this.funding = true
+            })
+
+            await Chain.methods.stakeResearch(this.id, price)
         }catch(error){
-            
+
         }
     }
 

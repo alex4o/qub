@@ -1,5 +1,5 @@
 /* eslint-disable */
-const abi =   [
+const abi = [
   {
     "constant": true,
     "inputs": [
@@ -188,6 +188,11 @@ const abi =   [
       {
         "indexed": false,
         "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "fullAmount",
         "type": "uint256"
       }
     ],
@@ -509,12 +514,17 @@ function updateAccount(){
 
 // ALL METHODS
 
-export function getSolidityCall(funName, payable) {
+export function getSolidityCall(funName, payable, argumentsCount) {
 	return function(){
-		let ar = arguments;
+    let ar = Array.from(arguments);
+    let price = "1"
+    if(ar.length == argumentsCount + 1){
+      price = ar.pop()
+    }
+
 		let o = {"from": acc}
 		if(payable){
-			o["value"] = web3.toWei(this || "1", "ether")
+			o["value"] = web3.toWei(price, "ether")
 		}
 		return new Promise((accept, reject) => {
 			inst[funName](...ar, o, (err, res) => {
