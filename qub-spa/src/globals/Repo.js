@@ -1,7 +1,17 @@
 import ResearchList from "../states/ResearchList"
 import Research from "../states/Research"
 
+import {abi, init, getSolidityCall} from "../contract_api"
+
+
 let repo = new ResearchList()
+
+let contract = init()
+window.contract = contract
+let methods = contract.abi.map(e => e.name).reduce((prev, curr) => ({...prev, [curr]: getSolidityCall(curr) }), {})
+window.m = methods
+console.log( methods )
+
 
 let res = new Research();
 
@@ -69,5 +79,7 @@ res.title = "The Conformal BMS Group"
 res.loadFromOrcID()
 
 repo.researches.push(res)
+
+
 
 export default repo
