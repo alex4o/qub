@@ -14,7 +14,7 @@ export default class MainFeed extends Component {
         return(
             <div>
                 <div className="main-container">
-                    {repo.researches.map((data, i) => <Research key={i} {...data}/>)}
+                    {repo.researches.map((data, i) => <Research key={i} {...data} research={data}/>)}
                 </div>
 				<AddResearch trigger={<Button size="massive" color="green" className="add-research-button" circular icon="plus"/>}/>                
             </div>

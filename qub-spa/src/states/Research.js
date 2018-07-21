@@ -56,8 +56,12 @@ export default class Research {
     }
 
     @action
-    async stake() {
-        
+    async stake(price) { // TODO: make it possible to stake more then 1 ether
+        try{
+            await Chain.methods.stakeResearch.bind(price)(this.id)
+        }catch(error){
+            
+        }
     }
 
 

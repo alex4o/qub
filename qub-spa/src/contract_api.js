@@ -1,5 +1,5 @@
 /* eslint-disable */
-const abi =  [
+const abi =   [
   {
     "constant": true,
     "inputs": [
@@ -514,7 +514,7 @@ export function getSolidityCall(funName, payable) {
 		let ar = arguments;
 		let o = {"from": acc}
 		if(payable){
-			o["value"] = web3.toWei("1", "ether")
+			o["value"] = web3.toWei(this || "1", "ether")
 		}
 		return new Promise((accept, reject) => {
 			inst[funName](...ar, o, (err, res) => {

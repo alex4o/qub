@@ -113,7 +113,7 @@ export default class Research extends Component {
                             }
 
                             <Button className="btns" disabled={this.props.isLocked || this.props.state === 2} as='div' labelPosition='right'>
-                                <Fund trigger ={
+                                <Fund research={this.props.research} trigger ={
                                     <Button basic color='green'>
                                         <Icon name='money'/>
                                         Fund
