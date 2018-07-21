@@ -25,6 +25,36 @@ export default class Research {
 
     @observable loading = false
 
+    constructor(args) {
+        let [researcherAddress, paperURL, title, id, stakedAmount, votesLength, isLocked, reproducerAddress, reproducedURL, state] = args
+        this.reproducerAddress = reproducerAddress
+        this.researcherAddress = researcherAddress
+
+        this.paperURL = paperURL
+        this.title = title
+        this.id = id
+        this.stakedAmount = stakedAmount.toFixed()
+        this.votesLength = votesLength.toFixed()
+        this.isLocked = isLocked
+
+        this.reproducedURL = reproducedURL
+        this.state = state.toFixed()
+
+        setTimeout(() => {
+            runInAction(async () => {
+                let stakers = await Chain.methods.getResearchStakers(this.id);
+                this.receiveStakers(stakers)
+                            
+            })            
+        }, 0)
+    }
+
+    @action
+    async receiveStakers(stakers)
+    {
+        this.stakers = stakers 
+    }
+
     @action
     async stake() {
         
@@ -47,20 +77,41 @@ export default class Research {
             this.loading = true
         })
 
-        const reproducer = await getPersonalFromOrcID(this.reproducerID)
-        const researcher = await getPersonalFromOrcID(this.researcherID)
-        // console.log(reproducer)
+        let reproducer
         try {
+            let reproducerID = await Chain.methods.addressToOrcid(this.reproducerAddress)
+            console.log("Id:  ", reproducerID)
+            reproducer = await getPersonalFromOrcID(reproducerID)
             runInAction(() => {
                 this.reproducer = reproducer.name["given-names"].value + " " + reproducer.name["family-name"].value
-                this.researcher = researcher.name["given-names"].value + " " + researcher.name["family-name"].value
-                this.loading = false
             })
         } catch (err) {
+            console.log("Еррор")
             runInAction(() => {
-                console.log("Еррор")
+                this.reproducer = ""
+                // this.loading = false
+                
             })
         }
+        let researcher
+        try{
+            let researcherID = await Chain.methods.addressToOrcid(this.researcherAddress)
+            researcher = await getPersonalFromOrcID(researcherID)
+            runInAction(() => {
+                this.researcher = researcher.name["given-names"].value + " " + researcher.name["family-name"].value
+            })
+        } catch (err) {
+            console.log("Еррор")
+            runInAction(() => {
+                this.researcher = ""
+                // this.loading = false
+            })
+        }
+
+        runInAction(() => {
+            this.loading = false
+        })
+        
     }
     
 }
