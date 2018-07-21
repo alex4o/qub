@@ -22,7 +22,7 @@ export default class Vote extends Component {
                         return <VoteItem color="gray" index={index} />
                     })}
                     </div>
-                    <div style={{ margin: "auto" }}>
+                    <div>
                         <Button color="green">Yes</Button>
                         <Button color="red">No</Button>
                     </div>
