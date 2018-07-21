@@ -109,6 +109,10 @@ contract Science {
         return votes[id][voteIdx].voted[adr];
     }
     
+    function getMyOrcid() public view isRegistered() returns(string) {
+        return addressToOrcid[msg.sender];
+    }
+
     //write
     function register(string orcid) public {
         require(bytes(addressToOrcid[msg.sender]).length == 0);
