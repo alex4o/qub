@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
 import repo from "../globals/Repo"
+import { observer } from 'mobx-react'
 
+@observer
 export default class LogIn extends Component {
 
 	constructor(props){
@@ -24,9 +26,6 @@ export default class LogIn extends Component {
 		this.setState({ orcId: orcId })
 
 		repo.register(orcId)
-
-        //link(orc-id)
-        //set the linked variable to true
     }
 
 	render() {
@@ -53,14 +52,20 @@ export default class LogIn extends Component {
 								/>	
 
 								<Button 
-									loading={this.state.loggingIn}
+									loading={this.state.loggingIn && !repo.error}
 									type='submit' 
 									color='blue' 
 									fluid 
 									size='large'>Submit</Button>
 							</Segment>
 						</Form>
-
+                        { console.log(repo.error) }
+                        { 
+                            repo.error ? 
+                            <Message error>
+                                Error, this is not a valid ORC-ID.
+                            </Message> : undefined
+                        }
                         <Message>
                             Don't have an orc-id? <a target="_blank" href="https://orgid.org"> Click here. </a>
                         </Message> 

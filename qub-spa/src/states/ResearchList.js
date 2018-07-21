@@ -39,12 +39,13 @@ export default class ResearchList {
             
             await Chain.register(id)
             
-
             runInAction(() => {
                 this.linked = true 
+                this.error = false
             })
         }catch(error) {
             runInAction(() => {
+                console.log("???")
                 this.linked = false
                 this.error = true
             })
