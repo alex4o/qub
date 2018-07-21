@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "rpc": "ganache-cli -d -e 10000000000"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ganache-cli": "^6.1.6",
     "web3": "^0.20.4"
   }
 }
