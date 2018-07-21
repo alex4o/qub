@@ -29,6 +29,10 @@ export default class Research extends Component {
         this.setState({ [name]: value })
     }
 
+    handleClose() {
+        this.setState({ openModal: false })
+    }
+
     submit() {
         console.log(this.state, "Submitted")
         this.props.research.stake(this.state.amount)
@@ -129,7 +133,7 @@ export default class Research extends Component {
                             }
 
                             <Button className="btns" disabled={this.props.isLocked || this.props.state === 2} as='div' labelPosition='right'>
-                                <Modal open={this.state.openModal} trigger={
+                                <Modal open={this.state.openModal} onClose={this.handleClose.bind(this)} trigger={
                                     <Button basic color='green' onClick={this.openModal.bind(this)}>
                                         <Icon name='money'/>
                                         Fund

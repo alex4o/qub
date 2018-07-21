@@ -18,6 +18,10 @@ export default class MainFeed extends Component {
         this.setState({ openModal: true })
     }
 
+    handleClose() {
+        this.setState({ openModal: false })
+    }
+
     submit() {
         repo.postResearch(this.state.paperUrl, this.state.title)
         this.setState({ openModal: false })
@@ -36,7 +40,7 @@ export default class MainFeed extends Component {
                 <div className="main-container">
                     {repo.researches.map((data, i) => <Research key={i} {...data} research={data}/>)}
                 </div>
-                <Modal open={this.state.openModal} trigger={<Button size="massive" onClick={this.handleOpen.bind(this)} color="green" className="add-research-button" circular icon="plus"/>} className="add-research-modal vote-modal" closeIcon >
+                <Modal open={this.state.openModal} onClose={this.handleClose.bind(this)} trigger={<Button size="massive" onClick={this.handleOpen.bind(this)} color="green" className="add-research-button" circular icon="plus"/>} className="add-research-modal vote-modal" closeIcon >
                     <Segment className="fundModal vote-segment" >
                         <h2 className="vote-title">Add a new research</h2>
                         <Input name="title" type="text" onChange={this.handleChange} placeholder="Enter your research title"/>
