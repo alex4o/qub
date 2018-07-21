@@ -14,7 +14,7 @@ res.reproducer = "Ivan petrov"
 res.researcher = "Georgi Dimitrov"
 res.stakedAmount = 200
 res.stakers = 4
-res.state = 1
+res.state = 2
 res.votes = []
 
 
@@ -43,7 +43,7 @@ res.reproducer = "Steven Hawking"
 res.researcher = ""
 res.stakedAmount = 800
 res.stakers = 6
-res.state = 1
+res.state = 0
 res.votes = []
 
 repo.researches.push(res)
