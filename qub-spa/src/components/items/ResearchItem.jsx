@@ -6,6 +6,7 @@ import { Document } from 'react-pdf/dist/entry.webpack'
 import { Page } from 'react-pdf'
 import  Vote from '../Vote'
 import Fund from '../FundResearch'
+import ReproduceResearch from '../ReproduceResearch'
 
 @observer
 export default class Research extends Component {
@@ -41,7 +42,7 @@ export default class Research extends Component {
     }
 
     applyReproducement() {
-        //apply for reproducement
+        
     }
 
     inc() {
@@ -51,7 +52,7 @@ export default class Research extends Component {
     }
 
     dec() {
-        if(this.state.pageNumber > 1) {        
+        if(this.state.pageNumber > 1) {
             this.setState({ pageNumber: this.state.pageNumber - 1 })
         }
     }
@@ -95,15 +96,22 @@ export default class Research extends Component {
                         </div>
                         <div className="button-area">
                             <Button className="btns" color="blue" disabled={this.props.isLocked} onClick={this.togglePaper.bind(this)}>See { !this.state.paperShown ? "more" : "less"}</Button>
-                            { this.props.state === 1 ? <Vote trigger={<Button className="btns" color="violet">Vote</Button>}/> : null}
-                            <Button className="btns" 
-                                    disabled={
-                                        this.props.isLocked    || 
-                                        this.props.state === 1 }
-                                        onClick={this.props.state === 2 ? this.toggleResults.bind(this) : this.props.state === 0 ? this.applyReproducement : null}
-                                        >
-                            {this.props.state === 0 ? "Reproduce" : this.props.state === 1 ? "Pending results" : "Results"} 
-                            </Button>
+                            
+                            { this.props.state === 1 ? <Vote data={this.props} trigger={<Button className="btns" color="violet">Vote</Button>}/> : null}
+                            { this.props.state === 0 ? 
+                                <ReproduceResearch trigger={ this.props.state === 0 ? <Button className="btns" disabled={this.props.isLocked}>Reproduce</Button> : null }/>
+                            :
+                                <Button className="btns" 
+                                        disabled={
+                                            this.props.isLocked    ||
+                                            this.props.state === 1 }
+                                            onClick={this.props.state === 2 ? this.toggleResults.bind(this) : null}
+                                            >
+                                { this.props.state === 1 ? "Pending results" : undefined}
+                                { this.props.state === 2 ? "Results" : undefined}
+                                </Button>
+                            }
+
                             <Button className="btns" disabled={this.props.isLocked || this.props.state === 2} as='div' labelPosition='right'>
                                 <Fund trigger ={
                                     <Button basic color='green'>

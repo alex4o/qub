@@ -99,3 +99,8 @@ body {
 .login-form {
 	margin-top: 20%;
 }
+
+.logged-user {
+	color: white;
+	text-align: center
+}

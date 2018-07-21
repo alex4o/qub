@@ -28,7 +28,7 @@ export default class Vote extends Component {
                     <h1 className="vote-title">Vote</h1>
                     <h3 className="vote-title">Participants</h3>                    
                     <div style={{ margin: "auto", maxWidth: 500, display: "flex", flexWrap: "wrap" }}>
-                    { Array.from(Array(99).keys()).map(index => {
+                    { Array.from(Array(this.props.data.stakers).keys()).map(index => {
                         return <VoteItem color={null} key={index} index={index} />
                     })}
                     </div>

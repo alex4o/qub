@@ -1,5 +1,6 @@
 import React, { Component } from 'react' 
-import { Menu, Dropdown, Container, Image } from 'semantic-ui-react'
+import { Menu, Dropdown, Container, Image, MenuHeader } from 'semantic-ui-react'
+import repo from '../globals/Repo'
 
 export default class NavBar extends Component { 
 
@@ -10,9 +11,12 @@ export default class NavBar extends Component {
                     <Menu.Item as='a' header>
                         <Image size='mini' src='/logo.png' style={{ marginRight: '1.5em' }} /> QuB
                     </Menu.Item>
-                    <Menu.Item as='a'>Home</Menu.Item>
+                    <MenuHeader className="logged-user">
+                        Your ORC-ID is {repo.myOrcID}
+                    </MenuHeader>
+                    {/* <Menu.Item as='a'>Home</Menu.Item> */}
 
-                    <Dropdown item simple text='Dropdown'>
+                    {/* <Dropdown item simple text='Dropdown'>
                         <Dropdown.Menu>
                             <Dropdown.Item>List Item</Dropdown.Item>
                             <Dropdown.Item>List Item</Dropdown.Item>
@@ -28,7 +32,7 @@ export default class NavBar extends Component {
                             </Dropdown.Item>
                             <Dropdown.Item>List Item</Dropdown.Item>
                         </Dropdown.Menu>
-                    </Dropdown>
+                    </Dropdown> */}
                 </Container>
             </Menu>
         )
