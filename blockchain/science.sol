@@ -85,7 +85,6 @@ contract Science {
     
     constructor () public payable {
         //...
-        publishResearch("dimitry", "gugul", "resar4");
     }
     
     //read
@@ -226,4 +225,6 @@ contract Science {
     function _sendMoney(address to, uint value) internal {
         to.transfer(value); //TODO: withdraw pattern
     }
+    
+    //TODO: Owner withdraw?
 }
