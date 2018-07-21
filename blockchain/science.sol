@@ -33,6 +33,7 @@ contract Science {
         ResearchState state;
     }
     
+    //orcids are hashed because strings and solidity aren't a good combination
     mapping (address => string) public addressToOrcid;
     
     mapping (bytes32 => Research) public researches;
@@ -78,17 +79,30 @@ contract Science {
     modifier orcidTheSame(string orcid) {
         bytes32 orcidHash = keccak256(abi.encodePacked(orcid));
         bytes32 currOrcidHash = keccak256(abi.encodePacked(addressToOrcid[msg.sender]));
-        require(orcidHash == keccak256("") || currOrcidHash == orcidHash);
+        //require(orcidHash == keccak256("") || currOrcidHash == orcidHash);
         _;
     }
     
-    constructor () public {
+    constructor () public payable {
         //...
+        publishResearch("dimitry", "gugul", "resar4");
     }
     
     //read
     function getResearchKeys() public view returns (bytes32[]) {
         return researchKeys;
+    }
+    
+    function getResearchStakers(bytes32 id) public view researchExists(id) returns (address[]) {
+        return researches[id].stakers;
+    }
+    
+    function getStake(bytes32 id, address adr) public view researchExists(id) returns (uint) {
+        return researches[id].staked[adr];
+    }
+    
+    function getVote(bytes32 id, uint voteIdx, address adr) public view researchExists(id) returns (VotedState) {
+        return votes[id][voteIdx].voted[adr];
     }
     
     //write
@@ -106,9 +120,10 @@ contract Science {
         res.id = id;
         res.state = ResearchState.PUBLISHED;
         
+        researchKeys.push(id);
     }
     
-    function stakeResearch(string orcid, bytes32 id) public payable researchExists(id) orcidTheSame(orcid) paidEnough(minStake) researchNotLocked(id) researchPending(id) {
+    function stakeResearch(string orcid, bytes32 id) public payable researchExists(id) orcidTheSame(orcid) paidEnough(minStake) researchNotLocked(id) {
         Research storage res = researches[id];
         
         addressToOrcid[msg.sender] = orcid;
@@ -147,7 +162,9 @@ contract Science {
         
         if(!res.isLocked) { //if there isn't a voting going on
             res.votesLength++;
+            votes[id].length = res.votesLength;
         }
+        
         voteIdx = res.votesLength-1;
         
         Vote storage voteObj = votes[id][voteIdx];
@@ -165,7 +182,7 @@ contract Science {
             voteObj.votedFor++;
             voteObj.voted[msg.sender] = VotedState.VOTED_FOR;
             
-            if(voteObj.votedFor > voteObj.target) {
+            if(voteObj.votedFor >= voteObj.target) {
                 voteObj.completed = true;
                 voteObj.result = true;
                 
@@ -178,7 +195,7 @@ contract Science {
             voteObj.votedAgainst++;
             voteObj.voted[msg.sender] = VotedState.VOTED_AGAINST;
             
-            if(voteObj.votedAgainst > voteObj.target) {
+            if(voteObj.votedAgainst >= voteObj.target) {
                 voteObj.completed = true;
                 voteObj.result = false;
                 
@@ -202,6 +219,6 @@ contract Science {
     }
     
     function _sendMoney(address to, uint value) internal {
-        //TODO
+        to.transfer(value); //TODO: withdraw pattern
     }
 }
