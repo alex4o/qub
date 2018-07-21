@@ -26,6 +26,22 @@ export default class Research {
     @observable loading = false
 
     @action
+    async stake() {
+        
+    }
+
+
+    @action
+    async startReproduce() {
+
+    }
+
+    @action
+    async submitReproduction(url) {
+
+    }
+
+    @action
     async loadFromOrcID() {
         runInAction(() => {
             this.loading = true

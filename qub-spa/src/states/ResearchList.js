@@ -28,9 +28,10 @@ export default class ResearchList {
     }
 
     @action
-    async postResearch() {
-
+    async postResearch(url, title) {
+        
     }
+    
 // 0000-0001-9087-4008
     @action
     async register(id) {
@@ -51,4 +52,6 @@ export default class ResearchList {
             })
         }
     }
+
+
  }
