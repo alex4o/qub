@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import { Segment, Button, Image, Icon, Label } from 'semantic-ui-react'
+import { Segment, Button, Image, Icon, Label, Modal, Input } from 'semantic-ui-react'
 import { observer } from 'mobx-react'
 import repo from "../../globals/Repo"
 import { Document } from 'react-pdf/dist/entry.webpack'
 import { Page } from 'react-pdf'
 import  Vote from '../Vote'
-import Fund from '../FundResearch'
 import ReproduceResearch from '../ReproduceResearch'
 
 @observer
@@ -19,8 +18,25 @@ export default class Research extends Component {
             paper: this.props.paperURL,
             numPages: null,
             loading: true,
+            openModal: false,
             pageNumber: 1,
+            amount: 0,
+            
         }
+    }
+
+    handleChange = (e, { name, value }) => {
+        this.setState({ [name]: value })
+    }
+
+    submit() {
+        console.log(this.state, "Submitted")
+        this.props.research.stake(this.state.amount)
+        this.setState({ openModal: false })
+    }
+
+    openModal() {
+        this.setState({ openModal: true })
     }
 
     onDocumentLoadSuccess = ({ numPages }) => {
@@ -113,12 +129,18 @@ export default class Research extends Component {
                             }
 
                             <Button className="btns" disabled={this.props.isLocked || this.props.state === 2} as='div' labelPosition='right'>
-                                <Fund research={this.props.research} trigger ={
-                                    <Button basic color='green'>
+                                <Modal open={this.state.openModal} trigger={
+                                    <Button basic color='green' onClick={this.openModal.bind(this)}>
                                         <Icon name='money'/>
                                         Fund
-                                    </Button>
-                                }/>
+                                    </Button>}
+                                     className="vote-modal" closeIcon>
+                                    <Segment className="fundModal">
+                                        <h2>Interested in the reproducability of this project?</h2>
+                                        <Input name="amount" type="number" onChange={this.handleChange.bind(this)} placeholder="How much ETH do you want to stake?"/>
+                                        <Button className="submit" onClick={this.submit.bind(this)}>Submit</Button>
+                                    </Segment>
+                                </Modal>
                                 <Label disabled={this.props.isLocked || this.props.state === 2} as='a' color='green' pointing='left'>
                                     {this.props.stakedAmount}
                                 </Label>

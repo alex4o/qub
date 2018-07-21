@@ -79,7 +79,6 @@ export default class ResearchList {
             })
         }catch(error) {
             runInAction(() => {
-                console.log("???")
                 this.linked = false
                 this.error = true
             })
