@@ -19,7 +19,7 @@ export function init(){
 
 var inst;
 
-var address = "0xe78a0f7e598cc8b0bb87894b0f60dd2a88d6a8ab";
+var address = "0xcfeb869f69431e42cdb54a4f4f105c19c080a601";
 var acc;
 
 function connectContract(){
@@ -37,12 +37,16 @@ function updateAccount(){
 
 // ALL METHODS
 
-export function getSolidityCall(funName) {
+export function getSolidityCall(funName, payable) {
 	return function(){
 		let ar = arguments;
+		let o = {"from": acc,}
+		if(payable){
+			o["value"] = web3.toWei("1", "ether")
+		}
 
 		return new Promise((accept, reject) => {
-			inst[funName](...ar, {"from": acc}, function(err, res){
+			inst[funName](...ar, o, function(err, res){
 				if(!err) {
 					accept(res);
 				} else {

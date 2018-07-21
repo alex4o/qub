@@ -8,9 +8,10 @@ let repo = new ResearchList()
 
 let contract = init()
 window.contract = contract
-let methods = contract.abi.map(e => e.name).reduce((prev, curr) => ({...prev, [curr]: getSolidityCall(curr) }), {})
+
+let methods = contract.abi.reduce((prev, curr) => ({...prev, [curr.name]: getSolidityCall(curr.name, curr.payable) }), {})
+
 window.m = methods
-console.log( methods )
 
 
 let res = new Research();
