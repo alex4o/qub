@@ -115,7 +115,7 @@ export default class Research extends Component {
                             
                             { this.props.state === 1 ? <Vote research={this.props.research} trigger={<Button className="btns" color="violet">Vote</Button>}/> : null}
                             { this.props.state === 0 ? 
-                                <ReproduceResearch trigger={ this.props.state === 0 ? <Button className="btns" disabled={this.props.isLocked}>Reproduce</Button> : null }/>
+                                <ReproduceResearch research={this.props.research} trigger={ this.props.state === 0 ? <Button className="btns" disabled={this.props.isLocked}>Reproduce</Button> : null }/>
                             :
                                 <Button className="btns" 
                                         disabled={

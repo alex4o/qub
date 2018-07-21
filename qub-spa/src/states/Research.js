@@ -26,6 +26,12 @@ export default class Research {
     @observable loading = false
     @observable funding = false
 
+    // @observable reproducerAddress
+    // @observable researcherAddress
+    @observable canVote
+
+
+
     constructor(args) {
         let [researcherAddress, paperURL, title, id, stakedAmount, votesLength, isLocked, reproducerAddress, reproducedURL, state] = args
         this.reproducerAddress = reproducerAddress
@@ -35,28 +41,38 @@ export default class Research {
         this.title = title
         this.id = id
         this.stakedAmount = stakedAmount.toFixed() / 1000000000000000000
-        this.votesLength = +votesLength.toFixed()
+        this.votesLength = votesLength.toFixed() | 0
         this.isLocked = isLocked
 
         this.reproducedURL = reproducedURL
         this.state = state.toFixed() | 0
 
         Chain.events.Staked({ id: this.id }, { fromBlock: "latest", toBlock: "latest" } ).watch((err,ev) => {
-            // let stake = await Chain.methods.getStake(this.id)
             runInAction(() => {
                 this.stakedAmount =  ev.args.fullAmount.toFixed() / 1000000000000000000
                 this.funding = false
             })
 
-            console.log("staked", ev.args.fullAmount.toFixed() / 1000000000000000000, err, ev)
+            this.decideVote()
+        })
+
+        Chain.events.StartReproduce({ id: this.id }, "pending" ).watch((err,ev) => {
+            console.log("Start Reproduce: ",err,ev)
+            let {reproducer} = ev.args
+            runInAction(() => {
+
+                this.reproducerAddress = reproducer
+            })
+            this.loadFromOrcID()
+
         })
 
         setTimeout(() => {
             runInAction(async () => {
                 let stakers = await Chain.methods.getResearchStakers(this.id);
                 this.receiveStakers(stakers)
-                            
-            })            
+                this.decideVote()   
+            }) 
         }, 0)
     }
 
@@ -79,10 +95,35 @@ export default class Research {
         }
     }
 
+    @action
+    async decideVote(){
+        try {
+            let stake = await Chain.methods.getStake(this.id, Chain.account)
+            if(stake > 0){
+                runInAction(() => {
+                    this.canVote = true
+                })
+            }else{
+                runInAction(() => {
+                    this.canVote = false
+                })
+           }
+        } catch (error) {
+            runInAction(() => {
+                this.canVote = false
+            })
+        }
+    }
+
 
     @action
     async startReproduce() {
+        try{
+            await Chain.methods.startReproduce(this.id)
 
+        }catch(error) {
+
+        }
     }
 
     @action
