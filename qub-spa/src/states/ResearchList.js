@@ -7,6 +7,7 @@ export default class ResearchList {
     @observable researches = [];
     @observable linked = false
     @observable error = false
+    @observable myOrcID = ""
 
 
     constructor() {
@@ -44,6 +45,7 @@ export default class ResearchList {
             }else{
                 runInAction(() => {
                     this.linked = true
+                    this.myOrcID = orcid
                 })
             }
         }catch (err) {
@@ -69,7 +71,7 @@ export default class ResearchList {
         try{
             await axios.get(`https://pub.orcid.org/v2.1/${id}/personal-details`, { headers: { "Accept": "application/json" } })
             
-            await Chain.methods.register(id)
+            let orcid = await Chain.methods.register(id)
             
             runInAction(() => {
                 this.linked = true 
