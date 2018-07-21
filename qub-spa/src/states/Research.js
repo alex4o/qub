@@ -48,8 +48,11 @@ export default class Research {
         this.state = state.toFixed() | 0
 
         Chain.events.Staked({ id: this.id }, { fromBlock: "latest", toBlock: "latest" } ).watch((err,ev) => {
+            console.log(ev)
+            let {stakers, fullAmount} = ev.args
             runInAction(() => {
-                this.stakedAmount =  ev.args.fullAmount.toFixed() / 1000000000000000000
+                this.stakedAmount = fullAmount.toFixed() / 1000000000000000000
+                this.stakers = stakers
                 this.funding = false
             })
 

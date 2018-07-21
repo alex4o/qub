@@ -71,10 +71,10 @@ export default class ResearchList {
         try{
             await axios.get(`https://pub.orcid.org/v2.1/${id}/personal-details`, { headers: { "Accept": "application/json" } })
             
-            let orcid = await Chain.methods.register(id)
+            let address = await Chain.methods.register(id)
             
             runInAction(() => {
-                this.myOrcID = orcid
+                this.myOrcID = id
                 this.linked = true 
                 this.error = false
             })

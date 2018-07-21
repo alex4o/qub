@@ -194,6 +194,11 @@ const abi = [
         "indexed": false,
         "name": "fullAmount",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "stakers",
+        "type": "address[]"
       }
     ],
     "name": "Staked",
