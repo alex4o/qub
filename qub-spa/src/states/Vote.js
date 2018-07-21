@@ -5,7 +5,5 @@ export default class ResearchList {
     @observable votedAgainst;
     @observable target;
     @observable result;
-    
     @observable voters; 
-
 }
