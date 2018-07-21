@@ -79,7 +79,7 @@ contract Science {
     modifier orcidTheSame(string orcidStr) {
         bytes32 orcid = keccak256(abi.encodePacked(orcidStr));
         bytes32 currOrcidHash = addressToOrcid[msg.sender];
-        require(orcid == 0x0 || currOrcidHash == orcid);
+        //require(orcid == 0x0 || currOrcidHash == orcid);
         _;
     }
     
