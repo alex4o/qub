@@ -26,6 +26,7 @@ export default class Vote extends Component {
             <Modal className="vote-modal" trigger={this.props.trigger} dimmer="blurring" closeIcon>
                 <Segment className="vote-segment">
                     <h1 className="vote-title">Vote</h1>
+                    <h3 className="vote-title">Participants</h3>                    
                     <div style={{ margin: "auto", maxWidth: 500, display: "flex", flexWrap: "wrap" }}>
                     { Array.from(Array(99).keys()).map(index => {
                         return <VoteItem color={null} key={index} index={index} />

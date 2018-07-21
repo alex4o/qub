@@ -65,7 +65,7 @@ body {
 }
 
 .vote-modal {
-	width: 40% !important;
+	width: 50% !important;
 }
 
 .button {
@@ -76,6 +76,22 @@ body {
 	margin: auto;
 }
 
-.btns {
+.fundModal {
+	display: flex;
+	flex-direction: column;
+	margin: auto;
+}
+
+.input, .btns, .submit {
 	margin-top: 10px !important;
+}
+
+.annotationLayer {
+	display: none !important;
+}
+
+.add-research-button {
+	position: fixed;
+	bottom: 30px;
+	right: 30px;
 }

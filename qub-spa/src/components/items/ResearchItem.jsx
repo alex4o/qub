@@ -5,6 +5,7 @@ import repo from "../../globals/Repo"
 import { Document } from 'react-pdf/dist/entry.webpack'
 import { Page } from 'react-pdf'
 import  Vote from '../Vote'
+import Fund from '../FundResearch'
 
 @observer
 export default class Research extends Component {
@@ -16,13 +17,17 @@ export default class Research extends Component {
             paperShown: false,
             paper: this.props.paperURL,
             numPages: null,
+            loading: true,
             pageNumber: 1,
         }
     }
 
     onDocumentLoadSuccess = ({ numPages }) => {
         this.setState({ numPages });
-        
+    }
+
+    loadedThumbnail() {
+        this.setState({ loading: false })
     }
 
     toggleResults() {
@@ -75,7 +80,11 @@ export default class Research extends Component {
         return(
             <Segment className="research-item" disabled={this.props.isLocked} loading={this.props.loading}>
                 <div className="info">
-                    <Image src="/placeholder.png" size="medium"/>
+                    <Segment className="thumbnail" loading={this.state.loading}>
+                        <Document file={this.props.paperURL} onLoadSuccess={this.loadedThumbnail.bind(this)}>
+                            <Page scale={0.5} pageNumber={1}/>
+                        </Document>
+                    </Segment>
                     <div className="research-info">
                         <div>
                             <h3> {this.props.title} </h3>
@@ -96,10 +105,12 @@ export default class Research extends Component {
                             {this.props.state === 0 ? "Reproduce" : this.props.state === 1 ? "Pending results" : "Results"} 
                             </Button>
                             <Button className="btns" disabled={this.props.isLocked || this.props.state === 2} as='div' labelPosition='right'>
-                                <Button basic color='green'>
-                                    <Icon name='money'/>
-                                    Fund
-                                </Button>
+                                <Fund trigger ={
+                                    <Button basic color='green'>
+                                        <Icon name='money'/>
+                                        Fund
+                                    </Button>
+                                }/>
                                 <Label disabled={this.props.isLocked || this.props.state === 2} as='a' color='green' pointing='left'>
                                     {this.props.stakedAmount}
                                 </Label>
