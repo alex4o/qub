@@ -3,7 +3,6 @@ import Research from "../states/Research"
 
 let repo = new ResearchList()
 
-
 let res = new Research();
 
 res.id = "0xFAD34F43434485684586"

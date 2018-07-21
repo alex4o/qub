@@ -74,11 +74,11 @@ export default class Research extends Component {
                         <div className="button-area">
                             <Button color="blue" disabled={this.props.isLocked} onClick={this.togglePaper.bind(this)}>See more</Button>     
                             <Button disabled={this.props.isLocked || this.props.state === 1 || this.props.state === 2}>
-                                {this.props.state === 0 ? "Reproduce" : this.props.state === 1 ? "Pending results" : "Reproduced!" } 
+                                {this.props.state === 0 ? "Reproduce" : this.props.state === 1 ? "Pending results" : "Reproduced"} 
                             </Button>
                             <Button disabled={this.props.isLocked || this.props.state === 2} as='div' labelPosition='right'>
                                 <Button basic color='green'>
-                                    <Icon name='money' />
+                                    <Icon name='money'/>
                                     Fund
                                 </Button>
                                 <Label disabled={this.props.isLocked || this.props.state === 2} as='a' color='green' pointing='left'>
