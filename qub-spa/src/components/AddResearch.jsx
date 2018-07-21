@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Modal, Segment, Input, Button } from 'semantic-ui-react'
-
+import { observer } from 'mobx-react'
+import repo from "../globals/Repo"
 
 export default class AddResearch extends Component {
 
@@ -19,6 +20,8 @@ export default class AddResearch extends Component {
 
     submit() {
         console.log("submit")
+        repo.postResearch(this.state.paperUrl, this.state.title)
+
         //this.state is the argument
     }
 
@@ -29,7 +32,7 @@ export default class AddResearch extends Component {
                     <h2 className="vote-title">Add a new research</h2>
                     <Input name="title" type="text" onChange={this.handleChange} placeholder="Enter your research title"/>
                     <Input name="paperUrl" type="text" onChange={this.handleChange} placeholder="Enter your paper url"/>                    
-                    <Button inverted color="green" className="submit" onClick={this.submit}>Add</Button>
+                    <Button inverted color="green" className="submit" onClick={this.submit.bind(this)}>Add</Button>
                 </Segment>
             </Modal>
         )

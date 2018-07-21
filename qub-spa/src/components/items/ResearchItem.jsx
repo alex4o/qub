@@ -90,7 +90,7 @@ export default class Research extends Component {
                             <h3> {this.props.title} </h3>
                             <p> Researcher: <a target="_blank" href={"https://orcid.org/" + this.props.researcherID}> {this.props.researcher} </a></p>
                             <p> Reproducer: <a target="_blank" href={"https://orcid.org/" + this.props.reproducerID}> {this.props.reproducer} </a></p>
-                            <p> Backed by {this.props.stakers} people</p>
+                            <p> Backed by {this.props.stakers.length} people</p>
                             {/* <p> {this.props.state} </p> this state is used to say if you can reproduce or */}
                         </div>
                         <div className="button-area">
