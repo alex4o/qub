@@ -12,3 +12,10 @@ body {
 	margin-right: 20% !important;
 	margin-left: 20% !important;	
 }
+
+.button-area {
+	width: auto !important;
+}
+
+.button {
+}

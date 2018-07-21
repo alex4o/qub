@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Segment } from 'semantic-ui-react'
-import {observer} from 'mobx-react'
+import { Segment, Button, Image } from 'semantic-ui-react'
+import { observer } from 'mobx-react'
 import repo from "../../globals/Repo";
 
 export default class Research extends Component {
@@ -15,14 +15,15 @@ export default class Research extends Component {
 
     render(){
         return(
-            <Segment classId="research-item">
+            <Segment classID="research-item">
                 <div>
                     {/* TODO: Оправи */}
-                    {repo.keys.map(e => <span>{e}</span>)}
                     stuff1
                 </div>
-                <div>
-                    stuff2
+                <div className="button-area">
+                    <Button color="blue">See more</Button>                    
+                    <Button>Reproduce</Button>
+                    <Button color="green">Fund</Button>
                 </div>
             </Segment>
         );
