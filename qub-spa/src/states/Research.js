@@ -1,5 +1,7 @@
 import { observable, action, runInAction } from "mobx"
 import axios from "axios"
+import Chain from "../globals/chain"
+
 
 async function getPersonalFromOrcID(id){
     let {data} = await axios.get(`https://pub.orcid.org/v2.1/${id}/personal-details`, { headers: { "Accept": "application/json" } })
@@ -28,7 +30,7 @@ export default class Research {
         runInAction(() => {
             this.loading = true
         })
-        
+
         const reproducer = await getPersonalFromOrcID(this.reproducerID)
         const researcher = await getPersonalFromOrcID(this.researcherID)
         // console.log(reproducer)

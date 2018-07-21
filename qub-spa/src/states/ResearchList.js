@@ -19,4 +19,9 @@ export default class ResearchList {
             })
         }
     }
+
+    @action
+    async postResearch() {
+        
+    }
  }
