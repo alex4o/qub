@@ -6,6 +6,8 @@ import { Document } from 'react-pdf/dist/entry.webpack'
 import { Page } from 'react-pdf'
 import  Vote from '../Vote'
 import ReproduceResearch from '../ReproduceResearch'
+import SubmitReproduction from '../SubmitReproduction'
+
 
 @observer
 export default class Research extends Component {
@@ -31,6 +33,11 @@ export default class Research extends Component {
 
     handleClose() {
         this.setState({ openModal: false })
+    }
+
+    //This is for submitting reproductions
+    handleSubmit() {
+        
     }
 
     submit() {
@@ -99,7 +106,9 @@ export default class Research extends Component {
 
     render(){
         return(
-            <Segment className="research-item" disabled={this.props.isLocked} loading={this.props.loading}>
+            <Segment className="research-item" 
+                    //disabled={this.props.isLocked} 
+                    loading={this.props.loading}>
                 <div className="info">
                     <Segment className="thumbnail" loading={this.state.loading}>
                         <Document file={this.props.paperURL} onLoadSuccess={this.loadedThumbnail.bind(this)}>
@@ -115,17 +124,16 @@ export default class Research extends Component {
                             {/* <p> {this.props.state} </p> this state is used to say if you can reproduce or */}
                         </div>
                         <div className="button-area">
-                            <Button className="btns" color="blue" disabled={this.props.isLocked} onClick={this.togglePaper.bind(this)}>See { !this.state.paperShown ? "more" : "less"}</Button>
+                            <Button className="btns" color="blue" onClick={this.togglePaper.bind(this)}>See { !this.state.paperShown ? "more" : "less"}</Button>
                             
                             { this.props.state === 1 && !this.props.research.canSubmit ? <Vote research={this.props.research} trigger={<Button className="btns" color="violet">Vote</Button>}/> : null}
-                            { this.props.state === 1 && this.props.research.canSubmit ?  <Button className="btns" onClick={this.handleSubmit} content="Submit Reproduction"/> : null}
+                            <SubmitReproduction trigger={ this.props.state === 1 && this.props.research.canSubmit ?  <Button className="btns" onClick={this.handleSubmit} content="Submit Reproduction"/> : null}/>
                             
                             { this.props.state === 0 ? 
                                 <ReproduceResearch research={this.props.research} trigger={ this.props.state === 0 ? <Button className="btns" disabled={this.props.isLocked}>Reproduce</Button> : null }/>
                             :
                                 <Button className="btns"
                                         disabled={
-                                            this.props.isLocked    ||
                                             this.props.state === 1 }
                                             onClick={this.props.state === 2 ? this.toggleResults.bind(this) : null}
                                             >
@@ -134,9 +142,9 @@ export default class Research extends Component {
                                 </Button>
                             }
 
-                            <Button className="btns" disabled={this.props.isLocked || this.props.state === 2} as='div' labelPosition='right'>
+                            <Button className="btns" disabled={this.props.state === 2} as='div' labelPosition='right'>
                                 <Modal open={this.state.openModal} onClose={this.handleClose.bind(this)} trigger={
-                                    <Button basic color='green' onClick={this.openModal.bind(this)}>
+                                    <Button disabled={this.props.isLocked} basic color='green' onClick={this.openModal.bind(this)}>
                                         <Icon name='money'/>
                                         Fund
                                     </Button>}
@@ -147,7 +155,7 @@ export default class Research extends Component {
                                         <Button className="submit" onClick={this.submit.bind(this)}>Submit</Button>
                                     </Segment>
                                 </Modal>
-                                <Label disabled={this.props.isLocked || this.props.state === 2} as='a' color='green' pointing='left'>
+                                <Label disabled={this.props.state === 2} as='a' color='green' pointing='left'>
                                     {this.props.stakedAmount}
                                 </Label>
                             </Button>

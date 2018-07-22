@@ -21,8 +21,9 @@ export default class ReproduceResearch extends Component {
     }
 
     No() {
-        this.setState
+    
     }
+
 
     submit() {
         console.log("submit")
