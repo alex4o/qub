@@ -115,6 +115,7 @@ export default class Research {
            }
         } catch (error) {
             runInAction(() => {
+                console.error("canVote: ", error)
                 this.canVote = false
             })
         }
