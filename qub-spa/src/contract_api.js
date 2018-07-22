@@ -499,7 +499,7 @@ export function init(){
 
 var inst;
 
-var address = "0xcfeb869f69431e42cdb54a4f4f105c19c080a601";
+var address = "0xd833215cbcc3f914bd1c9ece3ee7bf8b14f841bb";
 var acc;
 
 function connectContract(){
