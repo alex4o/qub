@@ -116,7 +116,9 @@ export default class Research extends Component {
                             {console.log(this.props.research)}
                             <p> Reproducer: { 
                                 this.props.reproducer !== "" ? 
-                                    <a target="_blank" href={"https://orcid.org/" + this.props.research.reproducerID}> {this.props.research.reproducer} </a>
+                                    <a target="_blank" href={"https://orcid.org/" + this.props.research.reproducerID}> 
+                                        {this.props.research.reproducer}
+                                    </a>
                                     : "Pending researcher"
                                 }
                             </p>
