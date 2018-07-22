@@ -14,7 +14,7 @@ export default class History extends Component {
     render(){ 
         return (
         <div>
-            { events.list.map(event => <div><span>{event[0]}</span><span>{JSON.stringify(event[1])}</span></div>) }
+            { events.list.map((event, index) => <div key={index}><span>{event[0]}</span><span>{JSON.stringify(event[1])}</span></div>) }
         </div>
         )
     }
