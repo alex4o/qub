@@ -17,16 +17,20 @@ export default class Vote extends Component {
     
     voteYes() {
         console.log("Yes")
+        this.props.research.vote(true)
+
     }
 
     voteNo() {
         console.log("No")
+        this.props.research.vote(false)
+
     }
 
-    voteItem(index) {
+    voteItem(index, object) {
         return(
             <div>
-                <VoteItem color={null} index={index}/>
+                <VoteItem color={null} index={index} data={object}/>
             </div>
         )
     }
@@ -39,14 +43,14 @@ export default class Vote extends Component {
                     <h3 className="vote-title">Participants</h3>                    
                     <div style={{ margin: "auto", maxWidth: 500, display: "flex", flexWrap: "wrap" }}>
                     { this.props.research.stakers.map((object, index) => {
-                        return  <Popup  key={index} trigger={this.voteItem(index)} content="hi" />
+                        return  <Popup  key={index} trigger={this.voteItem(index, object)} content="hi" />
                     })}
                     </div>
                     {
                         this.props.research.canVote ?
                         <div className="vote-buttons">
-                            <Button size="massive" icon="check" onClick={this.voteYes} color="green"/>
-                            <Button size="massive" icon="close" onClick={this.voteNo} color="red"/>
+                            <Button size="massive" icon="check" onClick={this.voteYes.bind(this)} color="green"/>
+                            <Button size="massive" icon="close" onClick={this.voteNo.bind(this)} color="red"/>
                         </div> : null
                     }
 

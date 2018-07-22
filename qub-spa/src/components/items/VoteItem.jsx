@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Segment, Button, Image } from 'semantic-ui-react'
 import { observer } from 'mobx-react'
 
+import Chain from "../../globals/chain"
+
 export default class VoteItem extends Component {
 
     constructor(props) {
@@ -9,12 +11,23 @@ export default class VoteItem extends Component {
         
         this.state = {
             //state here
+            color: null
         }
+
+        Chain.events.Voted({ voter: this.props.data[0] }, 0).watch((error, ev) => {
+
+            console.log("Vote", error, ev)
+
+            if(!error){
+                let {voter, voteFor} = ev.args
+                this.setState({color: voteFor ? "green" : "red" })
+            }
+        })
     }
 
     render(){
         return(
-            <Button color={this.props.color} style={{  marginBottom: 5, width: 40, padding: 10 }}>{this.props.index + 1}</Button>
+            <Button color={this.state.color} style={{  marginBottom: 5, width: 40, padding: 10 }}>{this.props.index + 1}</Button>
             // <span className="vote-item" style={{ margin: 10, backgroundColor: this.props.color, display: "inline-block",}}></span>
         );
     }

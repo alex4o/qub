@@ -82,6 +82,8 @@ export default class Research {
     @action
     async receiveStakers(stakers)
     {
+        
+
         let stakersOrc = await Promise.all( stakers.map(async staker => await Chain.methods.addressToOrcid(staker)) )
         this.stakers = await Promise.all( stakersOrc.map(async orcid => await getPersonalFromOrcID(orcid) ) )
         this.stakers = _.zip(stakers, this.stakers.map(staker => staker.name["given-names"].value + " " + staker.name["family-name"].value), stakersOrc)
@@ -140,6 +142,15 @@ export default class Research {
     @action
     async submitReproduction(url) {
 
+    }
+
+    @action
+    async vote(YesNo) {
+        try {
+            await Chain.methods.vote(this.id, YesNo)
+        } catch (error) {
+            
+        }
     }
 
     @action
