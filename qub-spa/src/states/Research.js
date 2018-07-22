@@ -141,7 +141,11 @@ export default class Research {
 
     @action
     async submitReproduction(url) {
-
+        try {
+            Chain.methods.submitReproduction(url)
+        } catch (error) {
+            
+        }
     }
 
     @action
