@@ -117,18 +117,20 @@ export default class Research extends Component {
                         <div className="button-area">
                             <Button className="btns" color="blue" disabled={this.props.isLocked} onClick={this.togglePaper.bind(this)}>See { !this.state.paperShown ? "more" : "less"}</Button>
                             
-                            { this.props.state === 1 ? <Vote research={this.props.research} trigger={<Button className="btns" color="violet">Vote</Button>}/> : null}
+                            { this.props.state === 1 && !this.props.research.canSubmit ? <Vote research={this.props.research} trigger={<Button className="btns" color="violet">Vote</Button>}/> : null}
+                            { this.props.state === 1 && this.props.research.canSubmit ?  <Button className="btns" onClick={this.handleSubmit} content="Submit Reproduction"/> : null}
+                            
                             { this.props.state === 0 ? 
                                 <ReproduceResearch research={this.props.research} trigger={ this.props.state === 0 ? <Button className="btns" disabled={this.props.isLocked}>Reproduce</Button> : null }/>
                             :
-                                <Button className="btns" 
+                                <Button className="btns"
                                         disabled={
                                             this.props.isLocked    ||
                                             this.props.state === 1 }
                                             onClick={this.props.state === 2 ? this.toggleResults.bind(this) : null}
                                             >
-                                { this.props.state === 1 ? "Pending results" : undefined}
-                                { this.props.state === 2 ? "Results" : undefined}
+                                    { this.props.state === 1 ? "Pending results" : undefined}
+                                    { this.props.state === 2 ? "Results" : undefined}
                                 </Button>
                             }
 

@@ -20,6 +20,10 @@ export default class ReproduceResearch extends Component {
         this.props.research.startReproduce()
     }
 
+    No() {
+        this.setState
+    }
+
     submit() {
         console.log("submit")
         //this.state is the argument

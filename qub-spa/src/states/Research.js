@@ -1,4 +1,4 @@
-import { observable, action, runInAction } from "mobx"
+import { observable, action, runInAction, computed } from "mobx"
 import axios from "axios"
 import Chain from "../globals/chain"
 import _ from "lodash"
@@ -30,8 +30,6 @@ export default class Research {
     // @observable reproducerAddress
     // @observable researcherAddress
     @observable canVote
-
-
 
     constructor(args) {
         let [researcherAddress, paperURL, title, id, stakedAmount, votesLength, isLocked, reproducerAddress, reproducedURL, state] = args
@@ -121,6 +119,11 @@ export default class Research {
                 this.canVote = false
             })
         }
+    }
+
+    @computed
+    get canSubmit() {
+        return this.reproducerAddress === Chain.account
     }
 
 
