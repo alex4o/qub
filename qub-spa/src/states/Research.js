@@ -68,10 +68,22 @@ export default class Research {
 
         })
 
+        Chain.events.SubmitReproduction({ id: this.id }, "pending" ).watch((err,ev) => {
+            let {reproducer} = ev.args
+            runInAction(() => {
+                this.reproducerAddress = reproducer
+            })
+            this.loadFromOrcID()
+            this.state = 1
+            this.decideVote()
+
+        })
+
         setTimeout(() => {
             runInAction(async () => {
                 let stakers = await Chain.methods.getResearchStakers(this.id);
                 this.receiveStakers(stakers)
+                this.loadFromOrcID()
                 this.decideVote()   
             }) 
         }, 0)
