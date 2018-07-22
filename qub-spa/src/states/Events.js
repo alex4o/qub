@@ -6,7 +6,7 @@ export default class Events {
 
     @action
     async subscribe() {
-        chain.events.allEvents({}, {fromBlock: "pending", toBlock: "pending"}).watch((error, event) => {
+        chain.events.allEvents({fromBlock: 0, toBlock: "pending"}).watch((error, event) => {
             if(!error){
                 runInAction(() => {
                     this.list.push([ event.event, event.args ])
