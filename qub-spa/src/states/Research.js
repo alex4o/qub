@@ -143,6 +143,7 @@ export default class Research {
     async submitReproduction(url) {
         try {
             await Chain.methods.submitReproduction(this.id, url)
+            this.reproducedURL = url
         } catch (error) {
             
         }
