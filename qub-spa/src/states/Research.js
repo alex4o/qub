@@ -69,12 +69,11 @@ export default class Research {
         })
 
         Chain.events.SubmitReproduction({ id: this.id }, "pending" ).watch((err,ev) => {
-            let {reproducer} = ev.args
+            let {reproducedURL} = ev.args
             runInAction(() => {
-                this.reproducerAddress = reproducer
+                this.reproducedURL = reproducer
             })
             this.loadFromOrcID()
-            this.state = 1
             this.decideVote()
 
         })
