@@ -194,6 +194,11 @@ const abi = [
         "indexed": false,
         "name": "fullAmount",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "stakers",
+        "type": "address[]"
       }
     ],
     "name": "Staked",
@@ -482,7 +487,6 @@ let puts = console.log
 
 
 export function init(){
-	console.log("success")
 	if (typeof web3 === 'undefined') {
 		//if there is no web3 variable
 		puts("Error! Are you sure that you are using metamask?");

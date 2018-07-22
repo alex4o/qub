@@ -102,5 +102,11 @@ body {
 
 .logged-user {
 	color: white;
-	text-align: center
+	text-align: right;
+	margin: auto;
+	width: 100%;
+}
+
+.popup {
+	z-index: 1000 !important;
 }

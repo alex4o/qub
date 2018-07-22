@@ -13,7 +13,6 @@ import { BrowserRouter as Router } from "react-router-dom";
 import MainFeed from './components/MainFeed';
 import NavBar from './components/NavBar'
 
-import AddResearch from './components/AddResearch'
 import { observer } from 'mobx-react';
 import repo from './globals/Repo'
 

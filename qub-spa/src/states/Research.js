@@ -1,7 +1,7 @@
-import { observable, action, runInAction } from "mobx"
+import { observable, action, runInAction, computed } from "mobx"
 import axios from "axios"
 import Chain from "../globals/chain"
-
+import _ from "lodash"
 
 async function getPersonalFromOrcID(id){
     let {data} = await axios.get(`https://pub.orcid.org/v2.1/${id}/personal-details`, { headers: { "Accept": "application/json" } })
@@ -15,6 +15,7 @@ export default class Research {
     @observable id
     @observable stakedAmount
     @observable stakers = []
+
     @observable votes = []
     @observable isLocked
     @observable reproducerID
@@ -26,6 +27,10 @@ export default class Research {
     @observable loading = false
     @observable funding = false
 
+    // @observable reproducerAddress
+    // @observable researcherAddress
+    @observable canVote
+
     constructor(args) {
         let [researcherAddress, paperURL, title, id, stakedAmount, votesLength, isLocked, reproducerAddress, reproducedURL, state] = args
         this.reproducerAddress = reproducerAddress
@@ -35,35 +40,51 @@ export default class Research {
         this.title = title
         this.id = id
         this.stakedAmount = stakedAmount.toFixed() / 1000000000000000000
-        this.votesLength = +votesLength.toFixed()
+        this.votesLength = votesLength.toFixed() | 0
         this.isLocked = isLocked
 
         this.reproducedURL = reproducedURL
         this.state = state.toFixed() | 0
 
         Chain.events.Staked({ id: this.id }, { fromBlock: "latest", toBlock: "latest" } ).watch((err,ev) => {
-            // let stake = await Chain.methods.getStake(this.id)
+            let {stakers, fullAmount} = ev.args
             runInAction(() => {
-                this.stakedAmount =  ev.args.fullAmount.toFixed() / 1000000000000000000
+                this.stakedAmount = fullAmount.toFixed() / 1000000000000000000
+                this.receiveStakers(stakers)
                 this.funding = false
             })
 
-            console.log("staked", ev.args.fullAmount.toFixed() / 1000000000000000000, err, ev)
+            this.decideVote()
+        })
+
+        Chain.events.StartReproduce({ id: this.id }, "pending" ).watch((err,ev) => {
+            let {reproducer} = ev.args
+            runInAction(() => {
+                this.reproducerAddress = reproducer
+            })
+            this.loadFromOrcID()
+            this.state = 1
+            this.decideVote()
+
         })
 
         setTimeout(() => {
             runInAction(async () => {
                 let stakers = await Chain.methods.getResearchStakers(this.id);
                 this.receiveStakers(stakers)
-                            
-            })            
+                this.decideVote()   
+            }) 
         }, 0)
     }
 
     @action
     async receiveStakers(stakers)
     {
-        this.stakers = stakers 
+        
+
+        let stakersOrc = await Promise.all( stakers.map(async staker => await Chain.methods.addressToOrcid(staker)) )
+        this.stakers = await Promise.all( stakersOrc.map(async orcid => await getPersonalFromOrcID(orcid) ) )
+        this.stakers = _.zip(stakers, this.stakers.map(staker => staker.name["given-names"].value + " " + staker.name["family-name"].value), stakersOrc)
     }
 
     @action
@@ -79,15 +100,61 @@ export default class Research {
         }
     }
 
+    @action
+    async decideVote(){
+        try {
+            let stake = await Chain.methods.getStake(this.id, Chain.account)
+            if(stake > 0){
+                runInAction(() => {
+                    this.canVote = true
+                })
+            }else{
+                runInAction(() => {
+                    this.canVote = false
+                })
+           }
+        } catch (error) {
+            runInAction(() => {
+                console.error("canVote: ", error)
+                this.canVote = false
+            })
+        }
+    }
+
+    @computed
+    get canSubmit() {
+        return this.reproducerAddress === Chain.account
+    }
+
 
     @action
     async startReproduce() {
+        try{
+            await Chain.methods.startReproduce(this.id)
 
+        }catch(error) {
+
+        }
     }
 
     @action
     async submitReproduction(url) {
+        try {
+            await Chain.methods.submitReproduction(this.id, url)
+            this.reproducedURL = url
+            this.state = 2
+        } catch (error) {
+            
+        }
+    }
 
+    @action
+    async vote(YesNo) {
+        try {
+            await Chain.methods.vote(this.id, YesNo)
+        } catch (error) {
+            
+        }
     }
 
     @action
@@ -99,13 +166,11 @@ export default class Research {
         let reproducer
         try {
             let reproducerID = await Chain.methods.addressToOrcid(this.reproducerAddress)
-            console.log("Id:  ", reproducerID)
             reproducer = await getPersonalFromOrcID(reproducerID)
             runInAction(() => {
                 this.reproducer = reproducer.name["given-names"].value + " " + reproducer.name["family-name"].value
             })
         } catch (err) {
-            console.log("Еррор")
             runInAction(() => {
                 this.reproducer = ""
                 // this.loading = false
@@ -120,7 +185,6 @@ export default class Research {
                 this.researcher = researcher.name["given-names"].value + " " + researcher.name["family-name"].value
             })
         } catch (err) {
-            console.log("Еррор")
             runInAction(() => {
                 this.researcher = ""
                 // this.loading = false

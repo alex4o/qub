@@ -16,8 +16,16 @@ export default class ReproduceResearch extends Component {
 		this.setState({ [name]: value })
 	}
 
+    Yes() {
+        this.props.research.startReproduce()
+    }
+
+    No() {
+    
+    }
+
+
     submit() {
-        console.log("submit")
         //this.state is the argument
     }
 
@@ -27,7 +35,7 @@ export default class ReproduceResearch extends Component {
                 <Segment className="fundModal vote-segment" >
                     <h2 className="vote-title">Confirm your query for reproducing the research?</h2>
                     <p className="vote-title"> You will be obliged by the investors/backers to produce results or prove otherwise </p>         
-                    <Button inverted color="green" className="submit" onClick={this.Yes}>Yes</Button>
+                    <Button inverted color="green" className="submit" onClick={this.Yes.bind(this)}>Yes</Button>
                     <Button inverted color="red" className="submit" onClick={this.No}>No</Button>                  
                 </Segment>
             </Modal>

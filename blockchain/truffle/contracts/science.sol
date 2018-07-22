@@ -3,7 +3,7 @@ pragma solidity 0.4.24;
 contract Science {
     event Registration(address indexed user, string orcid);
     event ResearchPublished(bytes32 indexed id, address indexed researcher);
-    event Staked(address indexed staker, bytes32 indexed id, uint amount, uint fullAmount);
+    event Staked(address indexed staker, bytes32 indexed id, uint amount, uint fullAmount, address[] stakers);
     event StartReproduce(address indexed reproducer, bytes32 indexed id);
     event SubmitReproduction(address indexed reproducer, bytes32 indexed id);
     event Voted(address indexed voter, bool voteFor, bytes32 indexed id, uint voteIdx);
@@ -149,7 +149,7 @@ contract Science {
         res.staked[msg.sender] += msg.value;
         res.stakedAmount += msg.value;
 
-        emit Staked(msg.sender, id, msg.value, res.stakedAmount);
+        emit Staked(msg.sender, id, msg.value, res.stakedAmount, res.stakers);
     }
     
     //TODO: Withdraw stake
