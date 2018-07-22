@@ -42,10 +42,13 @@ export default class Vote extends Component {
                     <h1 className="vote-title">Vote</h1>
                     <h3 className="vote-title">Participants</h3>                    
                     <div style={{ margin: "auto", maxWidth: 500, display: "flex", flexWrap: "wrap" }}>
-                    {/* TODO FIX BLURRING and POPUP */}
-                    { this.props.research.stakers.map((object, index) => {
-                        return  <Popup key={index} trigger={this.voteItem(index, object)} content={"aasdasdasdasad"} />
-                    })}
+                        {/* TODO FIX BLURRING and POPUP */}
+                        { console.log(this.props.research.stakers)}
+                        { this.props.research.stakers.map((object, index) => {
+                            return  <Popup  key={index} 
+                                            trigger={this.voteItem(index, object)} 
+                                            content={this.props.research.stakers[1]} />
+                        })}
                     </div>
                     {
                         this.props.research.canVote ?

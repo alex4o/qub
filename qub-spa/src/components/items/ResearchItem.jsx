@@ -102,7 +102,7 @@ export default class Research extends Component {
                 <div className="info">
                     <Segment className="thumbnail" loading={this.state.loading}>
                         <Document file={this.props.paperURL} onLoadSuccess={this.loadedThumbnail.bind(this)}>
-                            <Page scale={0.5} pageNumber={1}/>
+                            <Page scale={0.4} pageNumber={1}/>
                         </Document>
                     </Segment>
                     <div className="research-info">
@@ -130,35 +130,37 @@ export default class Research extends Component {
                                 See { !this.state.paperShown ? "more" : "less"}
                             </Button>
                             
-                            { this.props.state === 1 && !this.props.research.canSubmit ? 
-                                <Vote research={this.props.research} 
+                            { this.props.research.state === 1 && this.props.research.stakers.length > 0 ?
+                                <Vote research={this.props.research}
                                       trigger={
-                                        <Button className="btns" color="violet">Vote</Button>
-                                        }/> : null }
+                                        <Button className="btns" color="violet"> { this.props.research.canVote ? "Vote" : "Votes"} </Button>
+                                        }
+                                /> 
+                            : null }
                             
-                            <SubmitReproduction research={this.props.research} 
-                                                trigger={ 
-                                                    this.props.state === 1 && this.props.research.canSubmit ?  
-                                                    <Button className="btns" content="Submit Reproduction"/> : 
-                                                    null
-                                                }/>
+                            { 
+                                this.props.research.state === 1 && this.props.research.canSubmit ? 
+                                <SubmitReproduction research={this.props.research} 
+                                                    trigger={ <Button className="btns" content="Submit Reproduction"/> }/>
+                                : null
+                            }
                             
-                            { this.props.state === 0 ? 
+                            { this.props.research.state === 0 ? 
                                 <ReproduceResearch research={this.props.research} 
                                                     trigger={
                                                         <Button className="btns" disabled={this.props.isLocked}>Reproduce</Button>
                                                     }/>
                             :
                                 <Button className="btns"
-                                        disabled={ this.props.state === 1 }
-                                        onClick={this.props.state === 2 ? this.toggleResults.bind(this) : null}
+                                        disabled={ this.props.research.state === 1 }
+                                        onClick={this.props.research.state === 2 ? this.toggleResults.bind(this) : null}
                                     >
-                                    { this.props.state === 1 ? "Pending results" : undefined}
-                                    { this.props.state === 2 ? "Results" : undefined}
+                                    { this.props.research.state === 1 ? "Pending results" : undefined}
+                                    { this.props.research.state === 2 ? "Results" : undefined}
                                 </Button>
                             }
 
-                            <Button className="btns" disabled={this.props.state === 2} as='div' labelPosition='right'>
+                            <Button className="btns" disabled={this.props.research.state === 2} as='div' labelPosition='right'>
                                 <Modal open={this.state.openModal} onClose={this.handleClose.bind(this)} trigger={
                                     <Button disabled={this.props.isLocked} basic color='green' onClick={this.openModal.bind(this)}>
                                         <Icon name='money'/>
