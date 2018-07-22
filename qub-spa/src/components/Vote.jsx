@@ -47,20 +47,21 @@ export default class Vote extends Component {
                         { this.props.research.stakers.map((object, index) => {
                             return  <Popup  key={index} 
                                             trigger={this.voteItem(index, object)} 
-                                            content={this.props.research.stakers[1]} />
+                                            content={this.props.research.stakers[1]} 
+                                    />
                         })}
                     </div>
                     {
                         this.props.research.canVote ?
                         <div className="vote-buttons">
                             <Button size="massive" 
-                                    disabled={this.props.research.isLocked} 
+                                    disabled={this.props.research.state === 2} 
                                     onClick={this.voteYes.bind(this)} 
                                     icon="check" 
                                     color="green"/>
 
                             <Button size="massive" 
-                                    disabled={this.props.research.isLocked} 
+                                    disabled={this.props.research.state === 2} 
                                     onClick={this.voteNo.bind(this)} 
                                     icon="close" 
                                     color="red"/>

@@ -1531,23 +1531,6 @@
       "address": "0x254dffcd3277c0b1660f6d42efbb754edababc2b",
       "transactionHash": "0x59355a711b295c82c8b2e310246e538bf93b6c8bee219f18dde05aba60d0994e"
     },
-<<<<<<< HEAD
-    "1532240264747": {
-      "events": {},
-      "links": {},
-      "address": "0xe78a0f7e598cc8b0bb87894b0f60dd2a88d6a8ab",
-      "transactionHash": "0x1fc05f90eb331eb66c248296095b5ba457ddec05baf773c2e5383129db730eb2"
-    },
-    "1532240375631": {
-      "events": {},
-      "links": {},
-      "address": "0xe78a0f7e598cc8b0bb87894b0f60dd2a88d6a8ab",
-      "transactionHash": "0x1fc05f90eb331eb66c248296095b5ba457ddec05baf773c2e5383129db730eb2"
-    }
-  },
-  "schemaVersion": "2.0.1",
-  "updatedAt": "2018-07-22T06:19:40.537Z"
-=======
     "1532241170120": {
       "events": {},
       "links": {},
@@ -1565,9 +1548,14 @@
       "links": {},
       "address": "0xe78a0f7e598cc8b0bb87894b0f60dd2a88d6a8ab",
       "transactionHash": "0x2249cf2f1832b91a2d8669954a771e5f4899fdecf821c09b2d1e55980430b563"
+    },
+    "1532242568778": {
+      "events": {},
+      "links": {},
+      "address": "0xe78a0f7e598cc8b0bb87894b0f60dd2a88d6a8ab",
+      "transactionHash": "0x1fc05f90eb331eb66c248296095b5ba457ddec05baf773c2e5383129db730eb2"
     }
   },
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-07-22T06:35:55.104Z"
->>>>>>> 654938094e86f8acca2febbfa9b729d24b512b0d
+  "updatedAt": "2018-07-22T06:56:16.437Z"
 }

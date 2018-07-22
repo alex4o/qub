@@ -103,6 +103,7 @@ export default class Research {
     @action
     async decideVote(){
         try {
+            console.log(Chain.account)
             let stake = await Chain.methods.getStake(this.id, Chain.account)
             if(stake > 0){
                 runInAction(() => {
@@ -123,6 +124,7 @@ export default class Research {
 
     @computed
     get canSubmit() {
+        console.log(this.reproducerAddress, Chain.account)
         return this.reproducerAddress === Chain.account
     }
 

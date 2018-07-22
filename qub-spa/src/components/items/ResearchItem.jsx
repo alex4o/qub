@@ -109,14 +109,14 @@ export default class Research extends Component {
                         <div>
                             <h3> {this.props.title} </h3>
                             <p> Researcher: 
-                                <a target="_blank" href={"https://orcid.org/" + this.props.researcherID}> 
-                                    {this.props.researcher} 
+                                <a target="_blank" href={"https://orcid.org/" + this.props.research.researcherID}> 
+                                    {this.props.research.researcher} 
                                 </a>
                             </p>
-                            {/* {console.log(this.props.reproducer.length)} */}
+                            {console.log(this.props.research)}
                             <p> Reproducer: { 
                                 this.props.reproducer !== "" ? 
-                                    <a target="_blank" href={"https://orcid.org/" + this.props.reproducerID}> {this.props.reproducer} </a>
+                                    <a target="_blank" href={"https://orcid.org/" + this.props.research.reproducerID}> {this.props.research.reproducer} </a>
                                     : "Pending researcher"
                                 }
                             </p>
