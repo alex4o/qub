@@ -42,6 +42,7 @@ export default class Vote extends Component {
                     <h1 className="vote-title">Vote</h1>
                     <h3 className="vote-title">Participants</h3>                    
                     <div style={{ margin: "auto", maxWidth: 500, display: "flex", flexWrap: "wrap" }}>
+                    {/* TODO FIX BLURRING and POPUP */}
                     { this.props.research.stakers.map((object, index) => {
                         return  <Popup key={index} trigger={this.voteItem(index, object)} content={"aasdasdasdasad"} />
                     })}
@@ -49,8 +50,17 @@ export default class Vote extends Component {
                     {
                         this.props.research.canVote ?
                         <div className="vote-buttons">
-                            <Button size="massive" disabled={this.props.research.isLocked} icon="check" onClick={this.voteYes.bind(this)} color="green"/>
-                            <Button size="massive" disabled={this.props.research.isLocked} icon="close" onClick={this.voteNo.bind(this)} color="red"/>
+                            <Button size="massive" 
+                                    disabled={this.props.research.isLocked} 
+                                    onClick={this.voteYes.bind(this)} 
+                                    icon="check" 
+                                    color="green"/>
+
+                            <Button size="massive" 
+                                    disabled={this.props.research.isLocked} 
+                                    onClick={this.voteNo.bind(this)} 
+                                    icon="close" 
+                                    color="red"/>
                         </div> : null
                     }
 

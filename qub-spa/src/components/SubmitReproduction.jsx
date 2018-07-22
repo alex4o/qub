@@ -18,7 +18,6 @@ export default class SubmitReproduction extends Component {
 
     submit() {
         this.props.research.submitReproduction(this.state.reproduceURL)
-        //this.state is the argument
     }
 
     render(){

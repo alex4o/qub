@@ -35,11 +35,6 @@ export default class Research extends Component {
         this.setState({ openModal: false })
     }
 
-    //This is for submitting reproductions
-    handleSubmit() {
-        
-    }
-
     submit() {
         this.props.research.stake(this.state.amount)
         this.setState({ openModal: false })
@@ -113,26 +108,51 @@ export default class Research extends Component {
                     <div className="research-info">
                         <div>
                             <h3> {this.props.title} </h3>
-                            <p> Researcher: <a target="_blank" href={"https://orcid.org/" + this.props.researcherID}> {this.props.researcher} </a></p>
+                            <p> Researcher: 
+                                <a target="_blank" href={"https://orcid.org/" + this.props.researcherID}> 
+                                    {this.props.researcher} 
+                                </a>
+                            </p>
                             {/* {console.log(this.props.reproducer.length)} */}
-                            <p> Reproducer: { this.props.reproducer !== "" ? <a target="_blank" href={"https://orcid.org/" + this.props.reproducerID}> {this.props.reproducer} </a> : "Pending"}</p>
+                            <p> Reproducer: { 
+                                this.props.reproducer !== "" ? 
+                                    <a target="_blank" href={"https://orcid.org/" + this.props.reproducerID}> {this.props.reproducer} </a>
+                                    : "Pending researcher"
+                                }
+                            </p>
                             <p> Backed by {this.props.stakers.length} people</p>
                             {/* <p> {this.props.state} </p> this state is used to say if you can reproduce or */}
                         </div>
                         <div className="button-area">
-                            <Button className="btns" color="blue" onClick={this.togglePaper.bind(this)}>See { !this.state.paperShown ? "more" : "less"}</Button>
+                            <Button className="btns" 
+                                    color="blue" 
+                                    onClick={this.togglePaper.bind(this)}>
+                                See { !this.state.paperShown ? "more" : "less"}
+                            </Button>
                             
-                            { this.props.state === 1 && !this.props.research.canSubmit ? <Vote research={this.props.research} trigger={<Button className="btns" color="violet">Vote</Button>}/> : null}
-                            <SubmitReproduction research={this.props.research} trigger={ this.props.state === 1 && this.props.research.canSubmit ?  <Button className="btns" content="Submit Reproduction"/> : null}/>
+                            { this.props.state === 1 && !this.props.research.canSubmit ? 
+                                <Vote research={this.props.research} 
+                                      trigger={
+                                        <Button className="btns" color="violet">Vote</Button>
+                                        }/> : null }
+                            
+                            <SubmitReproduction research={this.props.research} 
+                                                trigger={ 
+                                                    this.props.state === 1 && this.props.research.canSubmit ?  
+                                                    <Button className="btns" content="Submit Reproduction"/> : 
+                                                    null
+                                                }/>
                             
                             { this.props.state === 0 ? 
-                                <ReproduceResearch research={this.props.research} trigger={ this.props.state === 0 ? <Button className="btns" disabled={this.props.isLocked}>Reproduce</Button> : null }/>
+                                <ReproduceResearch research={this.props.research} 
+                                                    trigger={
+                                                        <Button className="btns" disabled={this.props.isLocked}>Reproduce</Button>
+                                                    }/>
                             :
                                 <Button className="btns"
-                                        disabled={
-                                            this.props.state === 1 }
-                                            onClick={this.props.state === 2 ? this.toggleResults.bind(this) : null}
-                                            >
+                                        disabled={ this.props.state === 1 }
+                                        onClick={this.props.state === 2 ? this.toggleResults.bind(this) : null}
+                                    >
                                     { this.props.state === 1 ? "Pending results" : undefined}
                                     { this.props.state === 2 ? "Results" : undefined}
                                 </Button>
@@ -147,11 +167,14 @@ export default class Research extends Component {
                                      className="vote-modal" closeIcon>
                                     <Segment className="fundModal">
                                         <h2>Interested in the reproducability of this project?</h2>
-                                        <Input name="amount" type="number" onChange={this.handleChange.bind(this)} placeholder="How much ETH do you want to stake?"/>
+                                        <Input  name="amount" 
+                                                type="number"
+                                                onChange={this.handleChange.bind(this)} 
+                                                placeholder="How much ETH do you want to stake?"/>
                                         <Button className="submit" onClick={this.submit.bind(this)}>Submit</Button>
                                     </Segment>
                                 </Modal>
-                                <Label disabled={this.props.state === 2} as='a' color='green' pointing='left'>
+                                <Label as='a' color='green' pointing='left'>
                                     {this.props.stakedAmount}
                                 </Label>
                             </Button>

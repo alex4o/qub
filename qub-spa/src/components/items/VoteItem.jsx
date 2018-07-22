@@ -14,8 +14,12 @@ export default class VoteItem extends Component {
             color: null
         }
 
-        Chain.events.Voted({ voter: props.data[0] }, { toBlock: "pending", fromBlock: 0 }).watch((error, ev) => {
-
+        Chain.events.Voted({ 
+            voter: props.data[0] 
+        }, {
+            toBlock: "pending", 
+            fromBlock: 0 
+        }).watch((error, ev) => {
 
             if(!error){
                 let {voter, voteFor} = ev.args
@@ -27,7 +31,14 @@ export default class VoteItem extends Component {
 
     render(){
         return(
-            <Button color={this.state.color} style={{  marginBottom: 5, width: 40, padding: 10 }}>{this.props.index + 1}</Button>
+            <Button color={this.state.color} 
+                    style={{  
+                            marginBottom: 5, 
+                            width: 40, 
+                            padding: 10 
+                        }}>
+                {this.props.index + 1}
+            </Button>
             // <span className="vote-item" style={{ margin: 10, backgroundColor: this.props.color, display: "inline-block",}}></span>
         );
     }
