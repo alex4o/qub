@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Segment, Button, Image, Modal } from 'semantic-ui-react'
+import { Segment, Button, Image, Modal, Popup } from 'semantic-ui-react'
 import { observer } from 'mobx-react'
 import VoteItem from "./items/VoteItem"
 import repo from "../globals/Repo"
@@ -23,6 +23,14 @@ export default class Vote extends Component {
         console.log("No")
     }
 
+    voteItem(index) {
+        return(
+            <div>
+                <VoteItem color={null} index={index}/>
+            </div>
+        )
+    }
+
     render(){
         return(
             <Modal className="vote-modal" trigger={this.props.trigger} dimmer="blurring" closeIcon>
@@ -30,8 +38,8 @@ export default class Vote extends Component {
                     <h1 className="vote-title">Vote</h1>
                     <h3 className="vote-title">Participants</h3>                    
                     <div style={{ margin: "auto", maxWidth: 500, display: "flex", flexWrap: "wrap" }}>
-                    { Array.from(Array(this.props.research.stakers).keys()).map(index => {
-                        return <VoteItem color={null} key={index} index={index} />
+                    { this.props.research.stakers.map((object, index) => {
+                        return  <Popup  key={index} trigger={this.voteItem(index)} content="hi" />
                     })}
                     </div>
                     {

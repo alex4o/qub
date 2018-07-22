@@ -15,7 +15,6 @@ export default class VoteItem extends Component {
     render(){
         return(
             <Button color={this.props.color} style={{  marginBottom: 5, width: 40, padding: 10 }}>{this.props.index + 1}</Button>
-
             // <span className="vote-item" style={{ margin: 10, backgroundColor: this.props.color, display: "inline-block",}}></span>
         );
     }
