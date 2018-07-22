@@ -1,7 +1,7 @@
 import { observable, action, runInAction } from "mobx"
 import axios from "axios"
 import Chain from "../globals/chain"
-
+import _ from "lodash"
 
 async function getPersonalFromOrcID(id){
     let {data} = await axios.get(`https://pub.orcid.org/v2.1/${id}/personal-details`, { headers: { "Accept": "application/json" } })
@@ -15,6 +15,7 @@ export default class Research {
     @observable id
     @observable stakedAmount
     @observable stakers = []
+
     @observable votes = []
     @observable isLocked
     @observable reproducerID
@@ -52,7 +53,7 @@ export default class Research {
             let {stakers, fullAmount} = ev.args
             runInAction(() => {
                 this.stakedAmount = fullAmount.toFixed() / 1000000000000000000
-                this.stakers = stakers
+                this.receiveStakers(stakers)
                 this.funding = false
             })
 
@@ -63,7 +64,6 @@ export default class Research {
             console.log("Start Reproduce: ",err,ev)
             let {reproducer} = ev.args
             runInAction(() => {
-
                 this.reproducerAddress = reproducer
             })
             this.loadFromOrcID()
@@ -84,7 +84,10 @@ export default class Research {
     @action
     async receiveStakers(stakers)
     {
-        this.stakers = stakers 
+        let stakersOrc = await Promise.all( stakers.map(async staker => await Chain.methods.addressToOrcid(staker)) )
+        this.stakers = await Promise.all( stakersOrc.map(async orcid => await getPersonalFromOrcID(orcid) ) )
+        this.stakers = _.zip(stakers, this.stakers.map(staker => staker.name["given-names"].value + " " + staker.name["family-name"].value), stakersOrc)
+        console.log(this.stakers)
     }
 
     @action
