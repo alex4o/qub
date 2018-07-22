@@ -180,6 +180,7 @@ export default class Research {
             let reproducerID = await Chain.methods.addressToOrcid(this.reproducerAddress)
             reproducer = await getPersonalFromOrcID(reproducerID)
             runInAction(() => {
+                this.reproducerID = reproducerID
                 this.reproducer = reproducer.name["given-names"].value + " " + reproducer.name["family-name"].value
             })
         } catch (err) {
@@ -194,6 +195,7 @@ export default class Research {
             let researcherID = await Chain.methods.addressToOrcid(this.researcherAddress)
             researcher = await getPersonalFromOrcID(researcherID)
             runInAction(() => {
+                this.researcherID = researcherID
                 this.researcher = researcher.name["given-names"].value + " " + researcher.name["family-name"].value
             })
         } catch (err) {
