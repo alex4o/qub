@@ -1,21 +1,18 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react';
 import events from '../globals/Events';
-
+import { Segment } from 'semantic-ui-react';
+import HistoryItem from './items/HistoryItem'
 
 
 @observer
 export default class History extends Component {
-    constructor(props){
-        super(props)
-
-    }
-    
     render(){ 
         return (
-        <div>
-            { events.list.map((event, index) => <div key={index}><span>{event[0]}</span><span>{JSON.stringify(event[1])}</span></div>) }
-        </div>
+        <Segment className="history-feed">
+            <h3 className="history-title">Event history</h3>
+            { events.list.map((event, index) => <HistoryItem event={event} key={index}/>) }
+        </Segment>
         )
     }
 }

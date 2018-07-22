@@ -110,3 +110,58 @@ body {
 .popup {
 	z-index: 1000 !important;
 }
+
+.history-feed {
+	top: 60px !important;
+	right: 160px !important;
+	position: fixed !important;
+	display: flex !important;
+	flex-direction: column !important;
+	width: 220px !important;
+	max-height: 80vh !important;
+	overflow-y: scroll;
+	color: white;
+}
+
+.ResearchPublished {
+	background-color: #16ab39 !important;
+}
+
+.Registration {
+	background-color: #2185d0 !important;
+
+}
+
+.Staked {
+	background-color: #2185d0 !important;
+}
+
+.StartReproduce {
+	background-color: #6435c9 !important;
+
+}
+
+.SubmitReproduction {
+	background-color: #0069af !important;
+
+}
+
+.Voted {
+	background-color: #16ab39 !important;
+}
+
+.VoteCompleted {
+	background-color: #6435c9!important;
+
+}
+
+.history-item {
+	width: 100% !important;
+	margin-bottom: -5px !important;
+	height: 50px;
+}
+
+.history-title {
+	color: #000;
+	text-align:center;
+}
