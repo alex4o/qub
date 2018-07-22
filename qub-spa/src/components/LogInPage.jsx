@@ -59,7 +59,6 @@ export default class LogIn extends Component {
 									size='large'>Submit</Button>
 							</Segment>
 						</Form>
-                        { console.log(repo.error) }
                         { 
                             repo.error ? 
                             <Message error>

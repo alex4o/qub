@@ -17,7 +17,7 @@ export default class SubmitReproduction extends Component {
 	}
 
     submit() {
-        console.log("submit")
+        this.props.research.submitReproduction(this.state.reproduceURL)
         //this.state is the argument
     }
 
@@ -28,7 +28,7 @@ export default class SubmitReproduction extends Component {
                     <h2 className="vote-title"> Submit </h2>
                     <p className="vote-title"> Submit your contribution regarding the reproduction of this research </p>
                     <Input name="reproduceUrl" type="text" onChange={this.handleChange} placeholder="Enter your paper url"/>                         
-                    <Button inverted color="blue" className="submit" onClick={this.submit}>Submit</Button>
+                    <Button inverted color="blue" className="submit" onClick={this.submit.bind(this)}>Submit</Button>
                 </Segment>
             </Modal>
         )

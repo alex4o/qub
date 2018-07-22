@@ -26,7 +26,6 @@ export default class ReproduceResearch extends Component {
 
 
     submit() {
-        console.log("submit")
         //this.state is the argument
     }
 

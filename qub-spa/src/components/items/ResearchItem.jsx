@@ -41,7 +41,6 @@ export default class Research extends Component {
     }
 
     submit() {
-        console.log(this.state, "Submitted")
         this.props.research.stake(this.state.amount)
         this.setState({ openModal: false })
     }
@@ -66,10 +65,6 @@ export default class Research extends Component {
     togglePaper() {
         this.setState({ paper: this.props.paperURL })
         this.setState({ paperShown: !this.state.paperShown })
-    }
-
-    applyReproducement() {
-        
     }
 
     inc() {
@@ -127,7 +122,7 @@ export default class Research extends Component {
                             <Button className="btns" color="blue" onClick={this.togglePaper.bind(this)}>See { !this.state.paperShown ? "more" : "less"}</Button>
                             
                             { this.props.state === 1 && !this.props.research.canSubmit ? <Vote research={this.props.research} trigger={<Button className="btns" color="violet">Vote</Button>}/> : null}
-                            <SubmitReproduction trigger={ this.props.state === 1 && this.props.research.canSubmit ?  <Button className="btns" onClick={this.handleSubmit} content="Submit Reproduction"/> : null}/>
+                            <SubmitReproduction research={this.props.research} trigger={ this.props.state === 1 && this.props.research.canSubmit ?  <Button className="btns" content="Submit Reproduction"/> : null}/>
                             
                             { this.props.state === 0 ? 
                                 <ReproduceResearch research={this.props.research} trigger={ this.props.state === 0 ? <Button className="btns" disabled={this.props.isLocked}>Reproduce</Button> : null }/>

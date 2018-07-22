@@ -47,7 +47,6 @@ export default class Research {
         this.state = state.toFixed() | 0
 
         Chain.events.Staked({ id: this.id }, { fromBlock: "latest", toBlock: "latest" } ).watch((err,ev) => {
-            console.log(ev)
             let {stakers, fullAmount} = ev.args
             runInAction(() => {
                 this.stakedAmount = fullAmount.toFixed() / 1000000000000000000
@@ -59,7 +58,6 @@ export default class Research {
         })
 
         Chain.events.StartReproduce({ id: this.id }, "pending" ).watch((err,ev) => {
-            console.log("Start Reproduce: ",err,ev)
             let {reproducer} = ev.args
             runInAction(() => {
                 this.reproducerAddress = reproducer
@@ -87,7 +85,6 @@ export default class Research {
         let stakersOrc = await Promise.all( stakers.map(async staker => await Chain.methods.addressToOrcid(staker)) )
         this.stakers = await Promise.all( stakersOrc.map(async orcid => await getPersonalFromOrcID(orcid) ) )
         this.stakers = _.zip(stakers, this.stakers.map(staker => staker.name["given-names"].value + " " + staker.name["family-name"].value), stakersOrc)
-        console.log(this.stakers)
     }
 
     @action
@@ -144,6 +141,7 @@ export default class Research {
         try {
             await Chain.methods.submitReproduction(this.id, url)
             this.reproducedURL = url
+            this.state = 2
         } catch (error) {
             
         }
@@ -167,13 +165,11 @@ export default class Research {
         let reproducer
         try {
             let reproducerID = await Chain.methods.addressToOrcid(this.reproducerAddress)
-            console.log("Id:  ", reproducerID)
             reproducer = await getPersonalFromOrcID(reproducerID)
             runInAction(() => {
                 this.reproducer = reproducer.name["given-names"].value + " " + reproducer.name["family-name"].value
             })
         } catch (err) {
-            console.log("Еррор")
             runInAction(() => {
                 this.reproducer = ""
                 // this.loading = false
@@ -188,7 +184,6 @@ export default class Research {
                 this.researcher = researcher.name["given-names"].value + " " + researcher.name["family-name"].value
             })
         } catch (err) {
-            console.log("Еррор")
             runInAction(() => {
                 this.researcher = ""
                 // this.loading = false

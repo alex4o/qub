@@ -14,13 +14,11 @@ export default class VoteItem extends Component {
             color: null
         }
 
-        console.log(props)
         Chain.events.Voted({ voter: props.data[0] }, { toBlock: "pending", fromBlock: 0 }).watch((error, ev) => {
 
 
             if(!error){
                 let {voter, voteFor} = ev.args
-                console.log("Vote", error, ev, voteFor, voter)
 
                 this.setState({color: voteFor ? "green" : "red" })
             }

@@ -43,7 +43,6 @@ export default class Vote extends Component {
                     <h3 className="vote-title">Participants</h3>                    
                     <div style={{ margin: "auto", maxWidth: 500, display: "flex", flexWrap: "wrap" }}>
                     { this.props.research.stakers.map((object, index) => {
-                        console.log(object,index)
                         return  <Popup key={index} trigger={this.voteItem(index, object)} content={"aasdasdasdasad"} />
                     })}
                     </div>

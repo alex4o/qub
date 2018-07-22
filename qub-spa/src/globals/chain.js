@@ -7,7 +7,6 @@ let events = contract.abi.filter(element => element.type === "event").reduce((pr
 
 // methods.getOrcId = () => methods.addressToOrcid(account)
 
-console.log(methods)
 window.m = methods
 window.e = events
 
