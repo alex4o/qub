@@ -6,6 +6,7 @@ import Vote from './Vote'
 import NavBar from './NavBar'
 import repo from '../globals/Repo'
 import { observer } from 'mobx-react'
+import History from "./History"
 
 @observer
 export default class MainFeed extends Component {
@@ -60,6 +61,7 @@ export default class MainFeed extends Component {
                         <Button inverted color="green" className="submit" onClick={this.submit.bind(this)}>Add</Button>
                     </Segment>
                 </Modal>
+                <History></History>
             </div>
         )
     }

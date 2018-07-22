@@ -9,5 +9,6 @@ let events = contract.abi.filter(element => element.type === "event").reduce((pr
 
 window.m = methods
 window.e = events
+events["allEvents"] = contract.allEvents
 
 export default {methods, events, account}
