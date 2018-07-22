@@ -43,14 +43,15 @@ export default class Vote extends Component {
                     <h3 className="vote-title">Participants</h3>                    
                     <div style={{ margin: "auto", maxWidth: 500, display: "flex", flexWrap: "wrap" }}>
                     { this.props.research.stakers.map((object, index) => {
-                        return  <Popup  key={index} trigger={this.voteItem(index, object)} content="hi" />
+                        console.log(object,index)
+                        return  <Popup key={index} trigger={this.voteItem(index, object)} content={"aasdasdasdasad"} />
                     })}
                     </div>
                     {
                         this.props.research.canVote ?
                         <div className="vote-buttons">
-                            <Button size="massive" icon="check" onClick={this.voteYes.bind(this)} color="green"/>
-                            <Button size="massive" icon="close" onClick={this.voteNo.bind(this)} color="red"/>
+                            <Button size="massive" disabled={this.props.research.isLocked} icon="check" onClick={this.voteYes.bind(this)} color="green"/>
+                            <Button size="massive" disabled={this.props.research.isLocked} icon="close" onClick={this.voteNo.bind(this)} color="red"/>
                         </div> : null
                     }
 
