@@ -68,10 +68,22 @@ export default class Research {
 
         })
 
+        Chain.events.SubmitReproduction({ id: this.id }, "pending" ).watch((err,ev) => {
+            let {reproducer} = ev.args
+            runInAction(() => {
+                this.reproducerAddress = reproducer
+            })
+            this.loadFromOrcID()
+            this.state = 1
+            this.decideVote()
+
+        })
+
         setTimeout(() => {
             runInAction(async () => {
                 let stakers = await Chain.methods.getResearchStakers(this.id);
                 this.receiveStakers(stakers)
+                this.loadFromOrcID()
                 this.decideVote()   
             }) 
         }, 0)
@@ -170,6 +182,7 @@ export default class Research {
             let reproducerID = await Chain.methods.addressToOrcid(this.reproducerAddress)
             reproducer = await getPersonalFromOrcID(reproducerID)
             runInAction(() => {
+                this.reproducerID = reproducerID
                 this.reproducer = reproducer.name["given-names"].value + " " + reproducer.name["family-name"].value
             })
         } catch (err) {
@@ -184,6 +197,7 @@ export default class Research {
             let researcherID = await Chain.methods.addressToOrcid(this.researcherAddress)
             researcher = await getPersonalFromOrcID(researcherID)
             runInAction(() => {
+                this.researcherID = researcherID
                 this.researcher = researcher.name["given-names"].value + " " + researcher.name["family-name"].value
             })
         } catch (err) {

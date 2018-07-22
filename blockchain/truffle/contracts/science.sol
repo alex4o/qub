@@ -5,7 +5,7 @@ contract Science {
     event ResearchPublished(bytes32 indexed id, address indexed researcher);
     event Staked(address indexed staker, bytes32 indexed id, uint amount, uint fullAmount, address[] stakers);
     event StartReproduce(address indexed reproducer, bytes32 indexed id);
-    event SubmitReproduction(address indexed reproducer, bytes32 indexed id);
+    event SubmitReproduction(address indexed reproducer, bytes32 indexed id, string reproducedURL);
     event Voted(address indexed voter, bool voteFor, bytes32 indexed id, uint voteIdx);
     event VoteCompleted(bool result, bytes32 indexed id, uint voteIdx);
 
@@ -170,7 +170,7 @@ contract Science {
         
         res.reproducedURL = reproducedURL;
 
-        emit SubmitReproduction(msg.sender, id);
+        emit SubmitReproduction(msg.sender, id, reproducedURL);
     }
     
     function vote(bytes32 id, bool voteFor) public researchExists(id) isRegistered() researchReproducing(id) {

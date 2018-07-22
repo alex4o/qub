@@ -233,6 +233,11 @@ const abi = [
         "indexed": true,
         "name": "id",
         "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "name": "reproducedURL",
+        "type": "string"
       }
     ],
     "name": "SubmitReproduction",
@@ -481,6 +486,7 @@ const abi = [
     "type": "function"
   }
 ]
+
 
 let puts = console.log
 
