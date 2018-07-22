@@ -136,7 +136,7 @@ export default class Research {
     @computed
     get canSubmit() {
         console.log(this.reproducerAddress, Chain.account)
-        return this.reproducerAddress === Chain.account
+        return this.reproducerAddress === Chain.account && this.reproducedURL.length === 0
     }
 
 

@@ -11,4 +11,6 @@ window.m = methods
 window.e = events
 events["allEvents"] = contract.allEvents
 
+console.log("init: ", account, contract)
+
 export default {methods, events, account}

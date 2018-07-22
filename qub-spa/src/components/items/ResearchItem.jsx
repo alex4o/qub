@@ -154,11 +154,11 @@ export default class Research extends Component {
                                                     }/>
                             :
                                 <Button className="btns"
-                                        disabled={ this.props.research.state === 1 }
-                                        onClick={this.props.research.state === 2 ? this.toggleResults.bind(this) : null}
+                                        disabled={ this.props.research.state === 1 && this.props.research.reproducedURL.length === 0 }
+                                        onClick={this.props.research.reproducedURL.length > 0 ? this.toggleResults.bind(this) : null}
                                     >
-                                    { this.props.research.state === 1 ? "Pending results" : undefined}
-                                    { this.props.research.state === 2 ? "Results" : undefined}
+                                    { this.props.research.state === 1 && this.props.research.reproducedURL.length === 0 ? "Pending results" : undefined}
+                                    { this.props.research.reproducedURL.length > 0 ? "Results" : undefined}
                                 </Button>
                             }
 

@@ -519,6 +519,10 @@ function connectContract(){
 function updateAccount(){
 	//in metamask, the accounts array is of size 1 and only contains the currently selected account. The user can select a different account and so we need to update our account variable
   acc = web3.eth.accounts[0];
+  if(acc.length === 0){
+    console.error("Ибана работа !!!!!!!!!!")
+    window.alert("Супено е, ве")
+  }
   return acc
 }
 
