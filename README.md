@@ -30,3 +30,15 @@ Install the [MetaMask](https://metamask.io/) browser extension and instead of cr
 *Warning: if you restart the blockchain server, you need to reset your account state from settings.*
 
 You're good to go on the blockchain side!
+
+### React SPA Setup
+
+After entering the qub-spa folder
+```bash
+yarn install
+yarn start
+```
+Frontend should be up at 0.0.0.0:3000
+
+*Warning: ignore all warnings, it works.*
+
