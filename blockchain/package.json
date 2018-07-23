@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "rpc": "ganache-cli -d -e 10000000000",
-    "deploy": "truffle deploy"
+    "deploy": "cd truffle; truffle deploy"
   },
   "author": "",
   "license": "ISC",
